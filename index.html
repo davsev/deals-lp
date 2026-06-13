@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>המרכז מים – רובה המים שמשנה את הקרב</title>
+  <title>המרכז לרובי מים – רובה המים שמשנה את הקרב</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -11,20 +11,17 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --blue:        #0d6efd;
-      --blue-mid:    #0a58ca;
-      --blue-dark:   #08366b;
-      --blue-hero:   #0c4f9e;
-      --orange:      #ff6200;
-      --orange-lt:   #ff8c00;
-      --gold:        #ffc107;
-      --text:        #111827;
-      --muted:       #6b7280;
-      --white:       #ffffff;
-      --surface:     #f0f6ff;
-      --border:      #dde6f5;
-      --radius:      16px;
-      --shadow-card: 0 2px 20px rgba(0,0,0,.09);
+      --blue:      #1565c0;
+      --blue-dark: #08306b;
+      --orange:    #ff6200;
+      --orange-lt: #ff9100;
+      --gold:      #ffc107;
+      --text:      #111827;
+      --muted:     #6b7280;
+      --white:     #ffffff;
+      --surface:   #f0f6ff;
+      --border:    #dde6f5;
+      --radius:    16px;
     }
 
     html { scroll-behavior: smooth; }
@@ -37,37 +34,35 @@
       padding-bottom: 72px;
     }
 
-    /* ── SERVICE STRIP ────────────────────────────────── */
+    /* ── SERVICE STRIP ─────────────────────────────── */
     .svc-strip {
       background: var(--blue-dark);
       display: flex;
-      justify-content: center;
-      gap: 0;
       overflow: hidden;
     }
     .svc-item {
+      flex: 1;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 5px;
-      padding: 7px 14px;
+      padding: 7px 8px;
       font-size: 11px;
       color: rgba(255,255,255,.88);
       border-left: 1px solid rgba(255,255,255,.15);
-      flex: 1;
-      justify-content: center;
     }
     .svc-item:last-child { border-left: none; }
-    .svc-icon { font-size: 15px; }
-    .svc-text strong { display: block; font-size: 11px; font-weight: 700; line-height: 1.2; }
-    .svc-text span   { font-size: 10px; opacity: .8; }
+    .svc-em { font-size: 15px; }
+    .svc-t strong { display: block; font-size: 11px; font-weight: 700; line-height: 1.25; }
+    .svc-t span   { font-size: 9.5px; opacity: .78; }
 
-    /* ── HEADER ───────────────────────────────────────── */
+    /* ── HEADER ───────────────────────────────────── */
     .header {
+      position: sticky; top: 0; z-index: 300;
       background: var(--white);
       border-bottom: 1px solid var(--border);
-      position: sticky; top: 0; z-index: 300;
     }
-    .header-row {
+    .hdr-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -75,21 +70,10 @@
       max-width: 1100px;
       margin: 0 auto;
     }
-    .ham { font-size: 22px; cursor: pointer; padding: 4px; color: var(--text); }
+    .ham { font-size: 22px; cursor: pointer; padding: 4px; }
 
-    .logo-ring {
-      width: 60px; height: 60px;
-      background: radial-gradient(circle at 38% 32%, #3a9ddd, #0a3a8c);
-      border-radius: 50%;
-      border: 3px solid var(--gold);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      box-shadow: 0 4px 16px rgba(10,58,140,.4);
-    }
-    .logo-ring span {
-      color: #fff; font-size: 12px; font-weight: 900;
-      line-height: 1.2; text-align: center; letter-spacing: .2px;
-    }
+    /* Real logo image */
+    .logo-img { height: 62px; width: auto; display: block; }
 
     .cart-btn { position: relative; font-size: 22px; cursor: pointer; padding: 4px; }
     .cart-badge {
@@ -100,117 +84,104 @@
       display: flex; align-items: center; justify-content: center; padding: 0 3px;
     }
 
-    /* ── HERO ─────────────────────────────────────────── */
+    /* ── HERO ─────────────────────────────────────── */
     .hero {
       position: relative;
       overflow: hidden;
-      background: linear-gradient(165deg, #08255e 0%, #0c4f9e 30%, #1171c9 55%, #19a0dd 75%, #4dc8f2 92%, #a8dff5 100%);
+      background:
+        linear-gradient(to left, rgba(5,20,80,.15) 0%, rgba(8,48,128,.50) 40%, rgba(8,48,128,.88) 100%),
+        url('assets/gun-blue.jpg') center 55% / cover no-repeat;
     }
 
-    /* decorative beach scene via SVG */
-    .hero-bg-svg {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-    }
-
-    /* wave at bottom */
     .hero-wave {
-      position: absolute; bottom: -2px; left: 0; right: 0;
-      line-height: 0;
+      position: absolute; bottom: -2px; left: 0; right: 0; z-index: 3; line-height: 0;
     }
     .hero-wave svg { display: block; width: 100%; }
 
     .hero-body {
-      position: relative; z-index: 4;
-      max-width: 1100px;
-      margin: 0 auto;
+      position: relative; z-index: 2;
+      max-width: 1100px; margin: 0 auto;
       padding: 22px 16px 0;
       display: flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 260px;
-    }
-
-    /* RTL flex: first child → RIGHT side */
-    .hero-gun-wrap {
-      flex: 0 0 46%;
-      display: flex;
       align-items: flex-end;
-      justify-content: center;
-    }
-    .hero-gun-svg {
-      width: 100%;
-      max-width: 220px;
-      filter: drop-shadow(0 10px 28px rgba(0,80,200,.6));
+      gap: 4px;
+      min-height: 240px;
     }
 
-    .hero-text {
+    /* RTL: first child = RIGHT side visually */
+    .hero-gun-col {
+      flex: 0 0 46%;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+    .hero-gun-img {
+      width: 100%;
+      max-width: 240px;
+      display: block;
+      filter: drop-shadow(0 8px 32px rgba(0,60,180,.7));
+    }
+
+    .hero-txt {
       flex: 1;
       color: #fff;
-      padding-bottom: 16px;
+      padding-bottom: 20px;
     }
     .hero-title {
-      font-size: clamp(24px, 6.5vw, 46px);
+      font-size: clamp(24px, 6.5vw, 44px);
       font-weight: 900;
       line-height: 1.18;
-      text-shadow: 0 2px 14px rgba(0,0,0,.4);
+      text-shadow: 0 2px 14px rgba(0,0,0,.5);
       margin-bottom: 6px;
     }
-    .hero-title .yellow { color: var(--gold); }
+    .hero-title .gold { color: var(--gold); }
     .hero-sub {
       font-size: 13px;
       color: rgba(255,255,255,.82);
-      margin-bottom: 0;
     }
 
-    /* feature pills strip INSIDE hero at bottom */
-    .hero-pills-row {
-      position: relative; z-index: 4;
+    /* Pills row */
+    .pills-row {
+      position: relative; z-index: 2;
       max-width: 1100px; margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(4,1fr);
       gap: 6px;
-      padding: 12px 16px 24px;
+      padding: 12px 16px 26px;
     }
     .pill {
-      background: rgba(255,255,255,.17);
+      background: rgba(255,255,255,.18);
       border: 1px solid rgba(255,255,255,.28);
-      border-radius: 12px;
+      border-radius: 11px;
       padding: 8px 6px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
+      display: flex; align-items: center; gap: 7px;
       backdrop-filter: blur(6px);
     }
-    .pill-icon { font-size: 18px; flex-shrink: 0; }
-    .pill-val  { font-size: 11px; font-weight: 700; color: #fff; line-height: 1.2; }
-    .pill-lbl  { font-size: 9px; color: rgba(255,255,255,.75); }
+    .pill-ic  { font-size: 18px; flex-shrink: 0; }
+    .pill-val { font-size: 11px; font-weight: 700; color: #fff; line-height: 1.2; }
+    .pill-lbl { font-size: 9px; color: rgba(255,255,255,.72); }
 
-    /* ── SHIPPING BANNER ──────────────────────────────── */
+    /* ── SHIPPING BANNER ─────────────────────────── */
     .ship-bar {
-      background: var(--blue-mid);
-      display: flex; align-items: center; justify-content: center;
-      gap: 10px;
+      background: var(--blue);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
       padding: 13px 16px;
-      font-size: 15px; font-weight: 700; color: #fff;
+      color: #fff; font-size: 15px; font-weight: 700;
     }
     .ship-bar small { font-size: 12px; font-weight: 400; opacity: .88; }
 
-    /* ── SECTIONS BASE ────────────────────────────────── */
+    /* ── SHARED ──────────────────────────────────── */
     .section     { padding: 32px 16px; }
     .section-max { max-width: 1100px; margin: 0 auto; }
 
     .sec-badge {
       display: inline-flex; align-items: center; gap: 6px;
-      background: #fff3cd; border: 1px solid #ffc107;
+      background: #fff3cd; border: 1px solid var(--gold);
       border-radius: 20px; padding: 5px 14px;
       font-size: 12px; font-weight: 700; color: #856404;
       margin-bottom: 10px;
     }
-
     .sec-heading {
       font-size: clamp(19px, 5vw, 28px);
-      font-weight: 900; line-height: 1.28; color: var(--text);
+      font-weight: 900; line-height: 1.28;
       margin-bottom: 6px;
     }
     .sec-sub {
@@ -218,7 +189,9 @@
       margin-bottom: 18px; line-height: 1.5;
     }
 
-    /* ── VIDEO SECTION ────────────────────────────────── */
+    /* ── VIDEO SECTION ───────────────────────────── */
+    .vid-layout { display: flex; flex-direction: column; gap: 20px; }
+
     .vid-feats {
       display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
       margin-bottom: 18px;
@@ -227,107 +200,99 @@
     .vf-ic {
       width: 40px; height: 40px; flex-shrink: 0;
       background: #e3f2fd; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
     }
     .vf-strong { font-size: 13px; font-weight: 700; display: block; }
     .vf-small  { font-size: 11px; color: var(--muted); }
 
-    .btn-orange {
+    .btn-orange-full {
       width: 100%;
       background: linear-gradient(135deg, var(--orange), var(--orange-lt));
       color: #fff; border: none; border-radius: 14px;
-      padding: 16px 20px;
-      font-size: 16px; font-weight: 800;
+      padding: 16px 20px; font-size: 17px; font-weight: 800;
       cursor: pointer; font-family: 'Heebo', sans-serif;
       display: flex; align-items: center; justify-content: center; gap: 8px;
       box-shadow: 0 6px 20px rgba(255,98,0,.35);
       transition: transform .15s, box-shadow .15s;
       margin-bottom: 18px;
     }
-    .btn-orange:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,98,0,.45); }
+    .btn-orange-full:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(255,98,0,.45); }
 
     .video-box {
       position: relative; border-radius: var(--radius);
-      overflow: hidden; background: #0a1628;
-      aspect-ratio: 16/9; cursor: pointer;
-      box-shadow: var(--shadow-card);
+      overflow: hidden; aspect-ratio: 16/9;
+      cursor: pointer; box-shadow: 0 4px 24px rgba(0,0,0,.15);
+      background: #0a1628;
     }
-    .video-inner-bg {
+    .vid-bg {
       width: 100%; height: 100%;
-      background: linear-gradient(135deg, #0d1f3c 0%, #1565c0 60%, #0288d1 100%);
+      background: linear-gradient(140deg, #0d1f3c 0%, #1565c0 70%, #0288d1 100%);
       display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 8px;
+      color: rgba(255,255,255,.6); font-size: 13px; text-align: center;
     }
-    .play-circle {
-      width: 64px; height: 64px;
-      background: rgba(255,255,255,.92);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 26px; padding-right: 2px;
-      box-shadow: 0 8px 28px rgba(0,0,0,.4);
+    .play-btn {
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%,-50%);
+      width: 62px; height: 62px; border-radius: 50%;
+      background: rgba(255,255,255,.92);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; padding-right: 3px;
+      box-shadow: 0 8px 28px rgba(0,0,0,.4);
       transition: transform .15s;
     }
-    .video-box:hover .play-circle { transform: translate(-50%,-50%) scale(1.08); }
-    .vid-timer {
+    .video-box:hover .play-btn { transform: translate(-50%,-50%) scale(1.08); }
+    .vid-time {
       position: absolute; bottom: 8px; right: 8px;
       background: rgba(0,0,0,.62); color: #fff;
       font-size: 11px; padding: 3px 7px; border-radius: 5px;
     }
-    .vid-people {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center; flex-direction: column;
-      gap: 8px; color: rgba(255,255,255,.6);
-      font-size: 13px; text-align: center;
-    }
 
-    /* ── PRODUCT SECTION ──────────────────────────────── */
-    .prod-section { background: var(--surface); padding: 32px 16px; }
+    /* ── PRODUCT SECTION ─────────────────────────── */
+    .prod-sec { background: var(--surface); padding: 32px 16px; }
     .prod-max { max-width: 1100px; margin: 0 auto; }
 
-    .prod-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+    .prod-cards {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-bottom: 12px;
     }
-    .prod-card {
+    .pcard {
       background: var(--white);
       border: 2px solid var(--border);
       border-radius: var(--radius);
       padding: 12px 10px 14px;
-      position: relative;
-      cursor: pointer;
-      transition: border-color .18s, box-shadow .18s;
+      position: relative; cursor: pointer;
       display: flex; flex-direction: column; align-items: center; gap: 8px;
+      transition: border-color .18s, box-shadow .18s;
     }
-    .prod-card.on { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(13,110,253,.12); }
+    .pcard.on { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(21,101,192,.12); }
 
     .pc-radio {
       position: absolute; top: 10px; right: 10px;
       width: 19px; height: 19px; border-radius: 50%;
       border: 2px solid var(--border); background: var(--white);
       display: flex; align-items: center; justify-content: center;
-      transition: border-color .18s, background .18s;
     }
-    .prod-card.on .pc-radio { border-color: var(--blue); background: var(--blue); }
-    .prod-card.on .pc-radio::after { content: ''; width: 7px; height: 7px; background: #fff; border-radius: 50%; }
+    .pcard.on .pc-radio { border-color: var(--blue); background: var(--blue); }
+    .pcard.on .pc-radio::after { content: ''; width: 7px; height: 7px; background: #fff; border-radius: 50%; }
 
     .pc-del {
       position: absolute; top: 10px; left: 10px;
       background: none; border: none; font-size: 14px;
-      cursor: pointer; color: #ccc; line-height: 1;
+      cursor: pointer; color: #bbb; line-height: 1;
     }
     .pc-del:hover { color: #e53935; }
 
-    .pc-img {
-      width: 100%; height: 110px;
-      border-radius: 10px;
+    /* Product image */
+    .pc-img-wrap {
+      width: 100%; height: 120px;
+      border-radius: 10px; overflow: hidden;
       display: flex; align-items: center; justify-content: center;
     }
-    .pc-img.blue-bg { background: linear-gradient(145deg, #cfe8ff, #9dcfff); }
-    .pc-img.black-bg { background: linear-gradient(145deg, #e4e8ec, #c5cdd6); }
+    .pc-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 60%;
+    }
 
     .pc-name  { font-size: 16px; font-weight: 800; }
     .pc-price { font-size: 13px; color: var(--blue); font-weight: 600; }
@@ -338,7 +303,7 @@
       border: none; font-size: 18px; font-weight: 700;
       cursor: pointer; color: var(--text);
       display: flex; align-items: center; justify-content: center;
-      user-select: none; transition: background .1s;
+      user-select: none;
     }
     .qb:hover { background: var(--border); }
     .qv {
@@ -350,7 +315,7 @@
     .add-color-btn {
       width: 100%;
       background: none; border: 2px dashed #b0bec5;
-      border-radius: 12px; padding: 13px;
+      border-radius: 12px; padding: 12px;
       font-size: 14px; font-weight: 600; color: var(--muted);
       cursor: pointer; font-family: 'Heebo', sans-serif;
       display: flex; align-items: center; justify-content: center; gap: 6px;
@@ -358,27 +323,26 @@
     }
     .add-color-btn:hover { border-color: var(--blue); color: var(--blue); }
 
-    /* ── ORDER SUMMARY ────────────────────────────────── */
-    .order-section { padding: 28px 16px; }
+    /* ── ORDER SUMMARY ───────────────────────────── */
+    .order-sec { padding: 24px 16px; }
     .order-card {
       background: var(--white);
-      border-radius: 20px;
-      padding: 22px;
+      border-radius: 20px; padding: 22px;
       box-shadow: 0 4px 28px rgba(0,0,0,.09);
       max-width: 1100px; margin: 0 auto;
     }
-    .order-heading { font-size: 18px; font-weight: 800; margin-bottom: 14px; }
+    .order-hdg { font-size: 18px; font-weight: 800; margin-bottom: 14px; }
 
     .order-tbl { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 14px; }
     .order-tbl td { padding: 8px 4px; border-bottom: 1px solid #f0f4fa; }
-    .order-tbl td:last-child { text-align: left; font-weight: 600; color: var(--blue-mid); }
-    .order-tbl .sub-row td { font-size: 12px; color: var(--muted); border-bottom: none; }
-    .order-tbl .total-row td { font-size: 16px; font-weight: 800; border-top: 2px solid var(--border); border-bottom: none; padding-top: 10px; }
-    .order-tbl .total-row td:first-child { color: var(--text); }
-    .order-tbl .total-row td:last-child { color: var(--blue); font-size: 18px; }
+    .order-tbl td:last-child { text-align: left; font-weight: 600; color: var(--blue); }
+    .order-tbl .sub-r td { font-size: 12px; color: var(--muted); border-bottom: none; }
+    .order-tbl .tot-r td { font-size: 16px; font-weight: 800; border-top: 2px solid var(--border); border-bottom: none; padding-top: 10px; }
+    .order-tbl .tot-r td:first-child { color: var(--text); }
+    .order-tbl .tot-r td:last-child  { font-size: 18px; color: var(--blue); }
 
     .gift-row {
-      background: #fff8e1; border: 1.5px solid #ffc107;
+      background: #fff8e1; border: 1.5px solid var(--gold);
       border-radius: 12px; padding: 12px 14px;
       display: flex; align-items: flex-start; gap: 10px;
       margin-bottom: 18px;
@@ -387,12 +351,12 @@
     .gtt strong { font-size: 14px; font-weight: 700; display: block; }
     .gtt span   { font-size: 12px; color: var(--muted); }
 
-    .price-row { text-align: center; margin-bottom: 16px; }
-    .price-row .orig { font-size: 14px; color: #9e9e9e; text-decoration: line-through; margin-bottom: 2px; }
-    .price-row .final { font-size: 32px; font-weight: 900; }
-    .price-row .final small { font-size: 14px; font-weight: 400; color: var(--muted); }
+    .price-blk { text-align: center; margin-bottom: 16px; }
+    .price-orig  { font-size: 14px; color: #9e9e9e; text-decoration: line-through; margin-bottom: 2px; }
+    .price-final { font-size: 32px; font-weight: 900; }
+    .price-final small { font-size: 14px; font-weight: 400; color: var(--muted); }
 
-    .btn-add-cart {
+    .btn-cart {
       width: 100%;
       background: linear-gradient(135deg, var(--orange), var(--orange-lt));
       color: #fff; border: none; border-radius: 14px;
@@ -402,8 +366,8 @@
       box-shadow: 0 6px 20px rgba(255,98,0,.38);
       transition: transform .15s, box-shadow .15s;
     }
-    .btn-add-cart:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,98,0,.48); }
-    .btn-add-cart.done { background: linear-gradient(135deg, #1b5e20, #2e7d32); box-shadow: none; }
+    .btn-cart:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,98,0,.48); }
+    .btn-cart.done { background: linear-gradient(135deg, #1b5e20, #2e7d32); box-shadow: none; }
 
     .pay-row {
       display: flex; align-items: center; justify-content: center;
@@ -413,14 +377,12 @@
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 7px; padding: 5px 11px;
       font-size: 11px; font-weight: 700; color: var(--muted);
-      display: flex; align-items: center; gap: 4px;
     }
     .pay-chip.apple { background: #000; color: #fff; border-color: #000; }
+    .secure-ln { text-align: center; font-size: 11px; color: #9e9e9e; margin-top: 10px; }
 
-    .secure-line { text-align: center; font-size: 11px; color: #9e9e9e; margin-top: 10px; }
-
-    /* ── TRUST BADGES ─────────────────────────────────── */
-    .trust-section { background: var(--white); padding: 28px 16px; border-top: 1px solid var(--border); }
+    /* ── TRUST ───────────────────────────────────── */
+    .trust-sec { background: var(--white); padding: 28px 16px; border-top: 1px solid var(--border); }
     .trust-grid {
       max-width: 1100px; margin: 0 auto;
       display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
@@ -434,7 +396,7 @@
     .tb-strong { font-size: 13px; font-weight: 700; display: block; }
     .tb-small  { font-size: 11px; color: var(--muted); }
 
-    /* ── STICKY CTA ───────────────────────────────────── */
+    /* ── STICKY CTA ──────────────────────────────── */
     .sticky-cta {
       position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
       background: linear-gradient(135deg, var(--orange), var(--orange-lt));
@@ -448,66 +410,54 @@
     .cta-main { font-size: 18px; font-weight: 800; line-height: 1.2; }
     .cta-sub  { font-size: 11px; opacity: .9; }
 
-    /* ── DESKTOP ──────────────────────────────────────── */
+    /* ── RESPONSIVE ──────────────────────────────── */
     @media (min-width: 640px) {
-      .hero-title { font-size: 38px; }
-      .hero-gun-wrap { flex: 0 0 42%; }
-      .hero-pills-row { grid-template-columns: repeat(4,1fr); }
-      .pill { padding: 10px 10px; }
+      .hero-gun-img { max-width: 290px; }
+      .hero-title   { font-size: 36px; }
     }
 
     @media (min-width: 820px) {
       .vid-layout {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center;
+        display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
       }
-      .video-box { margin-top: 0; }
-      .btn-orange { max-width: 360px; }
+      .vid-layout > div:first-child { order: 2; } /* text right in RTL = first, but visually keep text on right */
+      .vid-layout > div:last-child  { order: 1; }
+      .btn-orange-full { max-width: 400px; }
 
       .trust-grid { grid-template-columns: repeat(5,1fr); }
       .tb { flex-direction: column; text-align: center; }
-      .tb-ic { width: 52px; height: 52px; }
     }
 
     @media (max-width: 380px) {
-      .hero-title { font-size: 21px; }
-      .hero-pills-row { grid-template-columns: 1fr 1fr; gap: 6px; }
-      .prod-grid { gap: 8px; }
-      .pc-img { height: 90px; }
+      .hero-title { font-size: 20px; }
+      .pills-row  { grid-template-columns: 1fr 1fr; padding-bottom: 22px; }
+      .pc-img-wrap { height: 95px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ══ SERVICE STRIP ════════════════════════════════════ -->
+<!-- ══ SERVICE STRIP ══════════════════════════════════════ -->
 <div class="svc-strip">
   <div class="svc-item">
-    <span class="svc-icon">🚚</span>
-    <div class="svc-text">
-      <strong>משלוח מהיר</strong>
-      <span>1-3 ימים</span>
-    </div>
+    <span class="svc-em">🚚</span>
+    <div class="svc-t"><strong>משלוח מהיר</strong><span>1-3 ימים</span></div>
   </div>
   <div class="svc-item">
-    <span class="svc-icon">💬</span>
-    <div class="svc-text">
-      <strong>שירות לקוחות</strong>
-      <span>24/7</span>
-    </div>
+    <span class="svc-em">💬</span>
+    <div class="svc-t"><strong>שירות לקוחות</strong><span>24/7</span></div>
   </div>
   <div class="svc-item">
-    <span class="svc-icon">🔒</span>
-    <div class="svc-text">
-      <strong>ביטוח SSL</strong>
-      <span>תשלום בטוח</span>
-    </div>
+    <span class="svc-em">🔒</span>
+    <div class="svc-t"><strong>ביטוח SSL</strong><span>תשלום בטוח</span></div>
   </div>
 </div>
 
 <!-- ══ HEADER ════════════════════════════════════════════ -->
 <header class="header">
-  <div class="header-row">
+  <div class="hdr-row">
     <span class="ham">☰</span>
-    <div class="logo-ring"><span>המרכז<br>מים</span></div>
+    <img src="assets/logo.webp" alt="המרכז לרובי מים" class="logo-img" />
     <div class="cart-btn" onclick="scrollToOrder()">
       🛒<div class="cart-badge" id="cartBadge">0</div>
     </div>
@@ -516,173 +466,47 @@
 
 <!-- ══ HERO ══════════════════════════════════════════════ -->
 <section class="hero">
-
-  <!-- Beach scene background -->
-  <svg class="hero-bg-svg" viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <!-- Sky already done by CSS gradient -->
-    <!-- Sun -->
-    <circle cx="320" cy="55" r="38" fill="rgba(255,220,80,.18)"/>
-    <circle cx="320" cy="55" r="26" fill="rgba(255,235,120,.22)"/>
-    <!-- Cloud -->
-    <ellipse cx="80" cy="50" rx="45" ry="18" fill="rgba(255,255,255,.1)"/>
-    <ellipse cx="110" cy="44" rx="30" ry="14" fill="rgba(255,255,255,.08)"/>
-    <!-- Ocean horizon -->
-    <rect x="0" y="200" width="400" height="80" fill="rgba(5,40,110,.35)"/>
-    <path d="M0 200 Q50 192 100 198 Q150 204 200 198 Q250 192 300 198 Q350 204 400 198 L400 210 L0 210Z" fill="rgba(30,100,200,.3)"/>
-    <!-- Beach sand -->
-    <path d="M0 240 Q100 230 200 238 Q300 246 400 238 L400 340 L0 340Z" fill="rgba(210,175,100,.3)"/>
-    <!-- Palm tree trunk (left side) -->
-    <path d="M 30 340 Q 36 280 42 220 Q 46 185 52 160" stroke="rgba(60,35,10,.7)" stroke-width="8" fill="none" stroke-linecap="round"/>
-    <!-- Palm fronds -->
-    <path d="M52 160 Q 20 140 0 130" stroke="rgba(30,90,20,.7)" stroke-width="6" fill="none" stroke-linecap="round"/>
-    <path d="M52 160 Q 30 145 22 158" stroke="rgba(30,90,20,.7)" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <path d="M52 160 Q 60 135 70 125" stroke="rgba(30,90,20,.65)" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <path d="M52 160 Q 75 148 90 148" stroke="rgba(30,90,20,.55)" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <!-- Water splash at bottom -->
-    <ellipse cx="200" cy="310" rx="180" ry="22" fill="rgba(100,200,255,.2)"/>
-    <!-- Light sparkles -->
-    <circle cx="340" cy="100" r="2" fill="rgba(255,255,255,.5)"/>
-    <circle cx="370" cy="130" r="1.5" fill="rgba(255,255,255,.4)"/>
-    <circle cx="300" cy="80" r="1.5" fill="rgba(255,255,255,.5)"/>
-  </svg>
-
-  <!-- Two-column: gun (RIGHT in RTL first) | text (LEFT) -->
   <div class="hero-body">
-    <!-- Gun: appears on RIGHT in RTL flex (first child) -->
-    <div class="hero-gun-wrap">
-      <svg class="hero-gun-svg" viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="ringWater" cx="40%" cy="35%">
-            <stop offset="0%" stop-color="#82d8ff"/>
-            <stop offset="45%" stop-color="#1b90e0"/>
-            <stop offset="100%" stop-color="#0a3fa0"/>
-          </radialGradient>
-          <radialGradient id="ringBody" cx="35%" cy="30%">
-            <stop offset="0%" stop-color="#4fc3f7"/>
-            <stop offset="50%" stop-color="#0d82cc"/>
-            <stop offset="100%" stop-color="#083f8c"/>
-          </radialGradient>
-          <linearGradient id="handleG" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#1976d2"/>
-            <stop offset="100%" stop-color="#0a3575"/>
-          </linearGradient>
-          <linearGradient id="nozzleG" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#1976d2"/>
-            <stop offset="100%" stop-color="#072b60"/>
-          </linearGradient>
-          <filter id="glow2" x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur stdDeviation="3.5" result="b"/>
-            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <clipPath id="ringClip2">
-            <circle cx="108" cy="115" r="74"/>
-          </clipPath>
-        </defs>
-
-        <!-- outer water aura -->
-        <circle cx="108" cy="115" r="100" fill="rgba(80,180,255,.07)"/>
-        <circle cx="108" cy="115" r="88" fill="rgba(80,180,255,.06)"/>
-
-        <!-- ring shadow -->
-        <circle cx="108" cy="120" r="78" fill="rgba(0,40,120,.35)"/>
-
-        <!-- ring body (thick circle) -->
-        <circle cx="108" cy="115" r="76" fill="url(#ringBody)" opacity=".25"/>
-        <circle cx="108" cy="115" r="76" fill="none" stroke="url(#ringBody)" stroke-width="30"/>
-
-        <!-- water fill inside ring -->
-        <circle cx="108" cy="115" r="60" fill="url(#ringWater)" opacity=".28"/>
-
-        <!-- animated-look wave inside ring -->
-        <path d="M 34 118 Q 58 104 82 118 Q 106 132 130 118 Q 154 104 178 118 L 178 182 L 34 182Z"
-              fill="rgba(100,200,255,.38)" clip-path="url(#ringClip2)"/>
-
-        <!-- ring inner border -->
-        <circle cx="108" cy="115" r="61" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="2"/>
-
-        <!-- LED accents on ring outer edge -->
-        <circle cx="108" cy="39" r="6" fill="#00e5ff" filter="url(#glow2)"/>
-        <circle cx="180" cy="82" r="5" fill="#00e5ff" filter="url(#glow2)" opacity=".8"/>
-        <circle cx="180" cy="148" r="5" fill="#00e5ff" opacity=".7"/>
-        <circle cx="108" cy="191" r="6" fill="#00e5ff" filter="url(#glow2)"/>
-        <circle cx="36" cy="148" r="5" fill="#00e5ff" opacity=".7"/>
-        <circle cx="36" cy="82" r="5" fill="#00e5ff" opacity=".8"/>
-
-        <!-- ring shine highlight -->
-        <path d="M 50 58 Q 75 34 115 32" stroke="rgba(255,255,255,.48)" stroke-width="5" fill="none" stroke-linecap="round"/>
-
-        <!-- connector from ring bottom to grip -->
-        <rect x="90" y="188" width="36" height="20" rx="8" fill="url(#handleG)"/>
-
-        <!-- grip body -->
-        <rect x="78" y="200" width="60" height="64" rx="16" fill="url(#handleG)"/>
-
-        <!-- grip texture -->
-        <rect x="84" y="212" width="48" height="44" rx="12" fill="rgba(0,0,0,.12)"/>
-        <line x1="88" y1="220" x2="88" y2="248" stroke="rgba(255,255,255,.15)" stroke-width="2"/>
-        <line x1="96" y1="216" x2="96" y2="252" stroke="rgba(255,255,255,.12)" stroke-width="2"/>
-        <line x1="104" y1="214" x2="104" y2="252" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
-
-        <!-- trigger guard -->
-        <path d="M 92 228 Q 108 248 124 228" fill="none" stroke="rgba(0,30,90,.7)" stroke-width="4" stroke-linecap="round"/>
-
-        <!-- side nozzle (right side of ring) -->
-        <rect x="180" y="108" width="35" height="14" rx="6" fill="url(#nozzleG)"/>
-        <circle cx="215" cy="115" r="9" fill="#072b60"/>
-        <circle cx="215" cy="115" r="5" fill="url(#nozzleG)"/>
-
-        <!-- water jets out of nozzle -->
-        <circle cx="226" cy="111" r="4.5" fill="#42c5f0" opacity=".88" filter="url(#glow2)"/>
-        <circle cx="234" cy="105" r="3" fill="#80d8ff" opacity=".7"/>
-        <circle cx="232" cy="119" r="3.5" fill="#29b6f6" opacity=".72"/>
-        <circle cx="240" cy="113" r="2.5" fill="#b3e5fc" opacity=".6"/>
-
-        <!-- USB port on grip -->
-        <rect x="90" y="255" width="18" height="6" rx="2" fill="rgba(0,0,0,.35)"/>
-
-        <!-- water drops around gun -->
-        <circle cx="20" cy="180" r="4" fill="rgba(100,200,255,.55)"/>
-        <circle cx="10" cy="165" r="2.5" fill="rgba(100,200,255,.4)"/>
-        <circle cx="190" cy="200" r="5" fill="rgba(100,200,255,.45)"/>
-        <circle cx="200" cy="188" r="3" fill="rgba(100,200,255,.35)"/>
-      </svg>
+    <!-- Gun image – first child → RIGHT side in RTL -->
+    <div class="hero-gun-col">
+      <img src="assets/gun-blue.jpg" alt="רובה המים" class="hero-gun-img" />
     </div>
 
-    <!-- Text: appears on LEFT (second child in RTL) -->
-    <div class="hero-text">
+    <!-- Text – second child → LEFT side in RTL -->
+    <div class="hero-txt">
       <h1 class="hero-title">
         רובה המים<br>
         שמשנה את הקרב<br>
-        <span class="yellow">לגלגיה אחרת!</span>
+        <span class="gold">לגלגיה אחרת!</span>
       </h1>
       <p class="hero-sub">עצמאי: מתקדם. בלתי לעצירה.</p>
     </div>
   </div>
 
-  <!-- Feature pills row -->
-  <div class="hero-pills-row">
+  <!-- Feature pills -->
+  <div class="pills-row">
     <div class="pill">
-      <span class="pill-icon">🔋</span>
+      <span class="pill-ic">🔋</span>
       <div><div class="pill-val">1200mAh</div><div class="pill-lbl">סוללה נטענת</div></div>
     </div>
     <div class="pill">
-      <span class="pill-icon">💧</span>
+      <span class="pill-ic">💧</span>
       <div><div class="pill-val">1200ml</div><div class="pill-lbl">מכל מים</div></div>
     </div>
     <div class="pill">
-      <span class="pill-icon">🎯</span>
+      <span class="pill-ic">🎯</span>
       <div><div class="pill-val">8+ מ׳</div><div class="pill-lbl">טווח ירי</div></div>
     </div>
     <div class="pill">
-      <span class="pill-icon">⚡</span>
+      <span class="pill-ic">⚡</span>
       <div><div class="pill-val">USB</div><div class="pill-lbl">טעינה מהירה</div></div>
     </div>
   </div>
 
-  <!-- wave -->
+  <!-- Bottom wave -->
   <div class="hero-wave">
     <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <path d="M0 28 C240 56 480 0 720 28 C960 56 1200 0 1440 28 L1440 56 L0 56Z" fill="#ffffff"/>
+      <path d="M0 28C240 56 480 0 720 28C960 56 1200 0 1440 28L1440 56H0Z" fill="#ffffff"/>
     </svg>
   </div>
 </section>
@@ -696,81 +520,50 @@
 <section class="section">
   <div class="section-max">
     <div class="vid-layout">
-      <!-- Text + features -->
+      <!-- Text + features + CTA -->
       <div>
         <div class="sec-badge">⭐ צוות כרובה בפעולה</div>
         <h2 class="sec-heading">תראו למה הילדים<br>לא מפסיקים לשחק איתנו!</h2>
-        <p class="sec-sub">
-          ירי מים עוצמתי, תאורת LED מרהיבה –<br>
-          גלגיית מים מדרגה ראשונה!
-        </p>
+        <p class="sec-sub">ירי מים עוצמתי, תאורת LED מרהיבה –<br>גלגיית מים מדרגה ראשונה!</p>
+
         <div class="vid-feats">
-          <div class="vf">
-            <div class="vf-ic">⚡</div>
-            <div><span class="vf-strong">USB טעינה</span><span class="vf-small">נוחות מלאה</span></div>
-          </div>
-          <div class="vf">
-            <div class="vf-ic">💡</div>
-            <div><span class="vf-strong">LED אורות</span><span class="vf-small">מרהיב בלילה</span></div>
-          </div>
-          <div class="vf">
-            <div class="vf-ic">💧</div>
-            <div><span class="vf-strong">שאיבת מים</span><span class="vf-small">מהירה ואוטומטית</span></div>
-          </div>
-          <div class="vf">
-            <div class="vf-ic">🤖</div>
-            <div><span class="vf-strong">ירי אוטומטי</span><span class="vf-small">רציף ועוצמתי</span></div>
-          </div>
+          <div class="vf"><div class="vf-ic">⚡</div><div><span class="vf-strong">USB טעינה</span><span class="vf-small">נוחות מלאה</span></div></div>
+          <div class="vf"><div class="vf-ic">💡</div><div><span class="vf-strong">LED אורות</span><span class="vf-small">מרהיב בלילה</span></div></div>
+          <div class="vf"><div class="vf-ic">💧</div><div><span class="vf-strong">שאיבת מים</span><span class="vf-small">מהירה ואוטומטית</span></div></div>
+          <div class="vf"><div class="vf-ic">🤖</div><div><span class="vf-strong">ירי אוטומטי</span><span class="vf-small">רציף ועוצמתי</span></div></div>
         </div>
-        <button class="btn-orange" onclick="scrollToOrder()">
+
+        <button class="btn-orange-full" onclick="scrollToOrder()">
           🛒 אני רוצה גם – הזמן עכשיו
         </button>
       </div>
 
       <!-- Video player -->
-      <div class="video-box" onclick="this.querySelector('.video-inner-bg').innerHTML='<div style=\'color:rgba(255,255,255,.6);font-size:13px;text-align:center;padding:16px\'>⏸ הסרטון יופעל כאן</div>'">
-        <div class="video-inner-bg">
-          <div class="vid-people">
-            <span style="font-size:42px">🎬</span>
-            <span>ילדים משחקים עם רובה המים</span>
-          </div>
+      <div class="video-box" onclick="playVideo(this)">
+        <div class="vid-bg">
+          <span style="font-size:42px">🎬</span>
+          <span>ילדים משחקים עם רובה המים</span>
         </div>
-        <div class="play-circle">▶</div>
-        <div class="vid-timer">0:00 / 0:24</div>
+        <div class="play-btn">▶</div>
+        <div class="vid-time">0:00 / 0:24</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ══ PRODUCT SELECT ═════════════════════════════════════ -->
-<section class="prod-section" id="orderSection">
+<section class="prod-sec" id="orderSection">
   <div class="prod-max">
     <h2 class="sec-heading">בחרו את הצבעים והכמויות שלכם</h2>
     <p class="sec-sub">ניתן לשנות כמויות ולהוסיף צבעים נוספים ביחד</p>
 
-    <div class="prod-grid">
-      <!-- BLUE card -->
-      <div class="prod-card on" id="card-blue" onclick="toggleCard('blue')">
+    <div class="prod-cards">
+      <!-- BLUE -->
+      <div class="pcard on" id="card-blue" onclick="toggleCard('blue')">
         <div class="pc-radio" id="radio-blue"></div>
         <button class="pc-del" onclick="event.stopPropagation();removeCard('blue')">✕</button>
-        <div class="pc-img blue-bg">
-          <!-- blue ring gun -->
-          <svg width="100" height="90" viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="bRing" cx="38%" cy="32%">
-                <stop offset="0%" stop-color="#64b5f6"/>
-                <stop offset="55%" stop-color="#1565c0"/>
-                <stop offset="100%" stop-color="#0d3a8c"/>
-              </radialGradient>
-            </defs>
-            <circle cx="108" cy="115" r="76" fill="none" stroke="url(#bRing)" stroke-width="28"/>
-            <circle cx="108" cy="115" r="62" fill="rgba(30,120,255,.2)"/>
-            <path d="M 34 118 Q 72 104 108 118 Q 144 132 182 118 L182 180 L34 180Z" fill="rgba(100,200,255,.3)" clip-path="url(#ringClip2)"/>
-            <ellipse cx="110" cy="96" rx="18" ry="10" fill="rgba(255,255,255,.3)" transform="rotate(-15 110 96)"/>
-            <rect x="90" y="188" width="36" height="20" rx="8" fill="#1565c0"/>
-            <rect x="78" y="200" width="60" height="60" rx="16" fill="#1565c0"/>
-            <rect x="180" y="108" width="32" height="14" rx="6" fill="#0d47a1"/>
-          </svg>
+        <div class="pc-img-wrap">
+          <img src="assets/gun-blue.jpg" alt="רובה מים כחול" />
         </div>
         <div class="pc-name">כחול</div>
         <div class="pc-price">₪89 ליחידה</div>
@@ -781,29 +574,12 @@
         </div>
       </div>
 
-      <!-- BLACK card -->
-      <div class="prod-card on" id="card-black" onclick="toggleCard('black')">
+      <!-- BLACK -->
+      <div class="pcard on" id="card-black" onclick="toggleCard('black')">
         <div class="pc-radio" id="radio-black"></div>
         <button class="pc-del" onclick="event.stopPropagation();removeCard('black')">✕</button>
-        <div class="pc-img black-bg">
-          <!-- black ring gun -->
-          <svg width="100" height="90" viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="bkRing" cx="38%" cy="32%">
-                <stop offset="0%" stop-color="#90a4ae"/>
-                <stop offset="55%" stop-color="#455a64"/>
-                <stop offset="100%" stop-color="#1c313a"/>
-              </radialGradient>
-            </defs>
-            <circle cx="108" cy="115" r="76" fill="none" stroke="url(#bkRing)" stroke-width="28"/>
-            <circle cx="108" cy="115" r="62" fill="rgba(50,80,100,.25)"/>
-            <path d="M 34 118 Q 72 104 108 118 Q 144 132 182 118 L182 180 L34 180Z" fill="rgba(100,160,200,.2)" clip-path="url(#ringClip2)"/>
-            <ellipse cx="110" cy="96" rx="18" ry="10" fill="rgba(255,255,255,.2)" transform="rotate(-15 110 96)"/>
-            <rect x="90" y="188" width="36" height="20" rx="8" fill="#37474f"/>
-            <rect x="78" y="200" width="60" height="60" rx="16" fill="#263238"/>
-            <rect x="180" y="108" width="32" height="14" rx="6" fill="#1c313a"/>
-            <rect x="58" y="111" width="100" height="7" rx="3" fill="#00e5ff" opacity=".6"/>
-          </svg>
+        <div class="pc-img-wrap">
+          <img src="assets/gun-black.jpg" alt="רובה מים שחור" />
         </div>
         <div class="pc-name">שחור</div>
         <div class="pc-price">₪89 ליחידה</div>
@@ -820,14 +596,14 @@
 </section>
 
 <!-- ══ ORDER SUMMARY ═════════════════════════════════════ -->
-<section class="order-section">
+<section class="order-sec">
   <div class="order-card">
-    <div class="order-heading">סיכום הזמנה</div>
+    <div class="order-hdg">סיכום הזמנה</div>
 
     <table class="order-tbl">
       <tbody id="orderBody"></tbody>
       <tfoot>
-        <tr class="total-row">
+        <tr class="tot-r">
           <td>מחיר סופי</td>
           <td id="totalCell">₪534</td>
         </tr>
@@ -842,12 +618,12 @@
       </div>
     </div>
 
-    <div class="price-row">
-      <div class="orig" id="origPrice">מחיר רגיל: ₪800</div>
-      <div class="final" id="finalPrice">₪534 <small>לתשלום</small></div>
+    <div class="price-blk">
+      <div class="price-orig" id="origPrice">מחיר רגיל: ₪800</div>
+      <div class="price-final" id="finalPrice">₪534 <small>לתשלום</small></div>
     </div>
 
-    <button class="btn-add-cart" id="addCartBtn" onclick="addToCart()">
+    <button class="btn-cart" id="addCartBtn" onclick="addToCart()">
       🛒 הוסף לסל
     </button>
 
@@ -857,38 +633,22 @@
       <div class="pay-chip">VISA</div>
       <div class="pay-chip">Mastercard</div>
     </div>
-
-    <div class="secure-line">🔒 | 100% תשלום מאובטח SSL | 100%</div>
+    <div class="secure-ln">🔒 | 100% תשלום מאובטח SSL</div>
   </div>
 </section>
 
 <!-- ══ TRUST BADGES ══════════════════════════════════════ -->
-<section class="trust-section">
+<section class="trust-sec">
   <div class="trust-grid">
-    <div class="tb">
-      <div class="tb-ic">🚚</div>
-      <div><span class="tb-strong">משלוח חינם</span><span class="tb-small">1-3 ימי עסקים</span></div>
-    </div>
-    <div class="tb">
-      <div class="tb-ic">🛡️</div>
-      <div><span class="tb-strong">אחריות מלאה</span><span class="tb-small">12 חודשים</span></div>
-    </div>
-    <div class="tb">
-      <div class="tb-ic">🔒</div>
-      <div><span class="tb-strong">שלוח בטוח SSL</span><span class="tb-small">מוצפן 100%</span></div>
-    </div>
-    <div class="tb">
-      <div class="tb-ic">💬</div>
-      <div><span class="tb-strong">שירות לקוחות</span><span class="tb-small">24/7 זמין</span></div>
-    </div>
-    <div class="tb">
-      <div class="tb-ic">↩️</div>
-      <div><span class="tb-strong">החזרות קלות</span><span class="tb-small">עד 14 ימים</span></div>
-    </div>
+    <div class="tb"><div class="tb-ic">🚚</div><div><span class="tb-strong">משלוח חינם</span><span class="tb-small">1-3 ימי עסקים</span></div></div>
+    <div class="tb"><div class="tb-ic">🛡️</div><div><span class="tb-strong">אחריות מלאה</span><span class="tb-small">12 חודשים</span></div></div>
+    <div class="tb"><div class="tb-ic">🔒</div><div><span class="tb-strong">שלוח בטוח SSL</span><span class="tb-small">מוצפן 100%</span></div></div>
+    <div class="tb"><div class="tb-ic">💬</div><div><span class="tb-strong">שירות לקוחות</span><span class="tb-small">24/7 זמין</span></div></div>
+    <div class="tb"><div class="tb-ic">↩️</div><div><span class="tb-strong">החזרות קלות</span><span class="tb-small">עד 14 ימים</span></div></div>
   </div>
 </section>
 
-<!-- ══ STICKY BOTTOM CTA ═════════════════════════════════ -->
+<!-- ══ STICKY CTA ════════════════════════════════════════ -->
 <div class="sticky-cta" onclick="scrollToOrder()">
   <span style="font-size:22px">🛒</span>
   <div>
@@ -899,68 +659,48 @@
 
 <script>
   const PRICE = 89;
-  const s = { blue: 2, black: 4, blueOn: true, blackOn: true };
+  const s = { blue:2, black:4, blueOn:true, blackOn:true };
 
   function changeQty(c, d) {
     s[c] = Math.max(0, s[c] + d);
     document.getElementById('qty-' + c).textContent = s[c];
     render();
   }
-
   function toggleCard(c) {
-    s[c + 'On'] = !s[c + 'On'];
-    document.getElementById('card-' + c).classList.toggle('on', s[c + 'On']);
+    s[c+'On'] = !s[c+'On'];
+    document.getElementById('card-'+c).classList.toggle('on', s[c+'On']);
     render();
   }
-
   function removeCard(c) {
-    s[c] = 0; s[c + 'On'] = false;
-    document.getElementById('qty-' + c).textContent = 0;
-    document.getElementById('card-' + c).classList.remove('on');
+    s[c]=0; s[c+'On']=false;
+    document.getElementById('qty-'+c).textContent=0;
+    document.getElementById('card-'+c).classList.remove('on');
     render();
   }
-
   function render() {
     const bq = s.blueOn  ? s.blue  : 0;
     const kq = s.blackOn ? s.black : 0;
-    const total = (bq + kq) * PRICE;
-    const units = bq + kq;
+    const total = (bq+kq)*PRICE, units=bq+kq;
     const tbody = document.getElementById('orderBody');
-    tbody.innerHTML = '';
-
-    const row = (label, val) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${label}</td><td>${val}</td>`;
-      tbody.appendChild(tr);
-    };
-
-    if (bq > 0) row(`${bq} × כחול`, `₪${bq * PRICE}`);
-    if (kq > 0) row(`${kq} × שחור`, `₪${kq * PRICE}`);
-    if (units > 0) {
-      const tr = document.createElement('tr');
-      tr.className = 'sub-row';
-      tr.innerHTML = `<td>${units} יחידות סה"כ</td><td></td>`;
-      tbody.appendChild(tr);
-    }
-
-    document.getElementById('totalCell').textContent = '₪' + total;
-    document.getElementById('origPrice').textContent  = 'מחיר רגיל: ₪' + Math.round(total * 1.5);
-    document.getElementById('finalPrice').innerHTML   = '₪' + total + ' <small>לתשלום</small>';
+    tbody.innerHTML='';
+    const row=(label,val)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${label}</td><td>${val}</td>`; tbody.appendChild(tr); };
+    if(bq>0) row(`${bq} × כחול`,`₪${bq*PRICE}`);
+    if(kq>0) row(`${kq} × שחור`,`₪${kq*PRICE}`);
+    if(units>0){ const tr=document.createElement('tr'); tr.className='sub-r'; tr.innerHTML=`<td>${units} יחידות סה"כ</td><td></td>`; tbody.appendChild(tr); }
+    document.getElementById('totalCell').textContent='₪'+total;
+    document.getElementById('origPrice').textContent='מחיר רגיל: ₪'+Math.round(total*1.5);
+    document.getElementById('finalPrice').innerHTML='₪'+total+' <small>לתשלום</small>';
   }
-
   function addToCart() {
-    const units = (s.blueOn ? s.blue : 0) + (s.blackOn ? s.black : 0);
-    if (!units) { alert('אנא בחרו לפחות יחידה אחת'); return; }
-    document.getElementById('cartBadge').textContent = units;
-    const btn = document.getElementById('addCartBtn');
-    btn.classList.add('done'); btn.innerHTML = '✓ נוסף לסל!';
-    setTimeout(() => { btn.classList.remove('done'); btn.innerHTML = '🛒 הוסף לסל'; }, 2500);
+    const units=(s.blueOn?s.blue:0)+(s.blackOn?s.black:0);
+    if(!units){ alert('אנא בחרו לפחות יחידה אחת'); return; }
+    document.getElementById('cartBadge').textContent=units;
+    const btn=document.getElementById('addCartBtn');
+    btn.classList.add('done'); btn.innerHTML='✓ נוסף לסל!';
+    setTimeout(()=>{ btn.classList.remove('done'); btn.innerHTML='🛒 הוסף לסל'; },2500);
   }
-
-  function scrollToOrder() {
-    document.getElementById('orderSection').scrollIntoView({ behavior: 'smooth' });
-  }
-
+  function scrollToOrder() { document.getElementById('orderSection').scrollIntoView({behavior:'smooth'}); }
+  function playVideo(el) { el.querySelector('.vid-bg').innerHTML='<div style="color:rgba(255,255,255,.6);padding:20px;text-align:center;font-size:13px">⏸ הסרטון יופעל כאן</div>'; }
   render();
 </script>
 </body>
