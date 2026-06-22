@@ -1,707 +1,413 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>המרכז לרובי מים – רובה המים שמשנה את הקרב</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>המרכז לרובי מים – רובי המים שמשגעים את הקיץ</title>
+  <meta name="description" content="רובי מים אלקטרוניים בטווח 10 מטר, סוללה נטענת ואורות LED. רק ב-89₪ עם משלוח חינם ואחריות 12 חודש.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Assistant:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --blue:      #1565c0;
-      --blue-dark: #08306b;
-      --orange:    #ff6200;
-      --orange-lt: #ff9100;
-      --gold:      #ffc107;
-      --text:      #111827;
-      --muted:     #6b7280;
-      --white:     #ffffff;
-      --surface:   #f0f6ff;
-      --border:    #dde6f5;
-      --radius:    16px;
+    :root{
+      --background:#fff;--foreground:#111827;--card:#fff;--muted:#f5f8fb;--muted-foreground:#667085;--border:#e4ebf2;
+      --primary:#1f96d4;--primary-foreground:#fff;--accent:#f59e0b;--accent-foreground:#fff;
+      --ring:rgba(31,150,212,.24);--radius:24px;--shadow:0 18px 45px rgba(15,45,75,.1);
     }
-
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Heebo', sans-serif;
-      direction: rtl;
-      text-align: right;
-      color: var(--text);
-      background: var(--white);
-      padding-bottom: 72px;
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--background);color:var(--foreground);font-family:Assistant,Heebo,Arial,sans-serif}
+    body.locked{overflow:hidden}
+    h1,h2,h3{font-family:Heebo,Assistant,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    .container{width:min(1152px,calc(100% - 32px));margin-inline:auto}
+    .site-header{position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(228,235,242,.8);background:rgba(255,255,255,.82);backdrop-filter:blur(14px)}
+    .header-inner{height:64px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:900}
+    .site-logo{display:block;width:82px;height:58px;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(8,38,76,.12))}
+    .nav{display:flex;gap:28px;font-size:14px;font-weight:700;color:#344054}
+    .nav a:hover{color:var(--primary)}
+    .cart-btn{position:relative;height:38px;border:1px solid var(--border);border-radius:999px;background:#fff;color:var(--foreground);display:flex;align-items:center;gap:8px;padding:0 16px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(15,45,75,.04)}
+    .cart-badge{min-width:20px;height:20px;border-radius:999px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:900}
+    .hero{position:relative;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;z-index:-3;background:linear-gradient(180deg,rgba(31,150,212,.1),#fff 68%)}
+    .hero:before{content:"";position:absolute;right:-120px;top:-130px;z-index:-2;width:380px;height:380px;border-radius:999px;background:rgba(31,150,212,.2);filter:blur(58px)}
+    .hero:after{content:"";position:absolute;left:-120px;bottom:-150px;z-index:-2;width:380px;height:380px;border-radius:999px;background:rgba(245,158,11,.22);filter:blur(58px)}
+    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding:94px 0 88px}
+    .fade-up{animation:fadeUp .7s ease both}.fade-up.delay{animation-delay:.08s}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+    .badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:rgba(245,158,11,.15);color:#b45f06;padding:6px 12px;font-size:13px;font-weight:900}
+    .hero h1{margin:18px 0 0;font-size:clamp(44px,5vw,68px);line-height:1.03;font-weight:900;letter-spacing:-1.5px}
+    .gradient-text{background:linear-gradient(270deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p{margin:22px 0 0;color:var(--muted-foreground);font-size:21px;line-height:1.65;font-weight:700}
+    .hero-actions{margin-top:32px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+    .button{border:0;border-radius:999px;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:9px;height:56px;padding:0 34px;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 16px 36px rgba(245,158,11,.28);transition:.18s ease}
+    .button:hover{filter:brightness(.98);transform:translateY(-1px)}
+    .button.primary{background:var(--primary);box-shadow:0 16px 36px rgba(31,150,212,.24)}
+    .button.full{width:100%}
+    .hero-meta{display:flex;align-items:center;gap:18px;color:var(--muted-foreground);font-size:14px;font-weight:800}
+    .rating{margin-top:24px;display:flex;align-items:center;gap:9px;font-size:14px}.stars{color:var(--accent);letter-spacing:1px}
+    .hero-visual{position:relative}.hero-visual:before{content:"";position:absolute;inset:12% 6%;border-radius:999px;background:rgba(31,150,212,.2);filter:blur(55px)}
+    .hero-img{position:relative;width:min(100%,448px);display:block;margin:auto;border-radius:32px;box-shadow:0 30px 65px rgba(31,150,212,.22);animation:float 5s ease-in-out infinite}
+    @keyframes float{50%{transform:translateY(-10px)}}
+    .trust{border-block:1px solid rgba(228,235,242,.8);background:rgba(245,248,251,.75)}
+    .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:30px 0}
+    .trust-item{display:flex;align-items:center;gap:13px}.icon{width:44px;height:44px;border-radius:999px;background:rgba(31,150,212,.1);color:var(--primary);display:grid;place-items:center;flex:none}
+    .trust-item b{display:block;font-size:15px}.trust-item small{display:block;color:var(--muted-foreground);font-size:13px;margin-top:2px}
+    .section{padding:80px 0}.section.muted{background:rgba(245,248,251,.75)}
+    .section-head{text-align:center;max-width:720px;margin:0 auto 44px}
+    .section-head h2{margin:0;font-size:clamp(32px,4vw,44px);line-height:1.12;font-weight:900}
+    .section-head p{margin:14px 0 0;color:var(--muted-foreground);font-size:18px;line-height:1.65;font-weight:650}
+    .products-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;max-width:940px;margin:auto}
+    .product-card{overflow:hidden;border:1px solid var(--border);border-radius:32px;background:#fff;box-shadow:var(--shadow);transition:.25s ease}
+    .product-card:hover{transform:translateY(-4px);box-shadow:0 26px 55px rgba(15,45,75,.14)}
+    .product-media{position:relative;aspect-ratio:1/1;background:linear-gradient(135deg,rgba(31,150,212,.06),rgba(245,158,11,.08))}
+    .product-media img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease}.product-card:hover .product-media img{transform:scale(1.04)}
+    .product-media.contain img{object-fit:contain;padding:52px}
+    .price{position:absolute;top:14px;right:14px;border-radius:999px;background:var(--accent);color:#fff;font-size:13px;font-weight:900;padding:7px 14px;box-shadow:0 10px 22px rgba(245,158,11,.28)}
+    .product-body{padding:24px}.product-body h3{font-size:23px;margin:0}.product-body p{margin:8px 0 16px;color:var(--muted-foreground);font-weight:700}
+    .checks{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:8px;font-weight:750}.checks li:before{content:"✓";color:var(--primary);font-weight:900;margin-left:8px}
+    .price-row{display:flex;align-items:flex-end;gap:10px;margin:12px 0 16px}
+    .sale-price{font-size:32px;line-height:1;font-weight:900;color:var(--primary)}
+    .regular-price{color:var(--muted-foreground);font-weight:800;text-decoration:line-through}
+    .color-select{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:13px;font-weight:900;color:var(--muted-foreground)}
+    .variant-options{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+    .variant-btn{border:1px solid var(--border);background:#fff;border-radius:999px;padding:8px 12px;display:flex;align-items:center;gap:8px;font-weight:900;cursor:pointer}
+    .variant-btn.active{border-color:var(--primary);box-shadow:0 0 0 3px var(--ring);color:var(--primary)}
+    .swatch{width:34px;height:34px;border-radius:999px;border:2px solid var(--border);box-shadow:inset 0 0 0 3px #fff}.swatch.blue{background:#1e88e5;border-color:var(--primary)}.swatch.black{background:#161616}.swatch.red{background:#d71920;border-color:#d71920}
+    .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .feature-card{border:1px solid var(--border);background:#fff;border-radius:24px;padding:24px;box-shadow:0 12px 30px rgba(15,45,75,.07)}
+    .feature-card h3{font-size:20px;margin:14px 0 8px}.feature-card p{margin:0;color:var(--muted-foreground);line-height:1.65;font-weight:650}
+    .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .review{border:1px solid var(--border);background:#fff;border-radius:24px;padding:24px;box-shadow:var(--shadow)}
+    .review p{line-height:1.75;color:#2f3b4c;font-weight:650}.review b{display:block;margin-top:18px}.review small{color:var(--muted-foreground)}
+    .faq-card{max-width:768px;margin:auto;border:1px solid var(--border);border-radius:24px;background:#fff;box-shadow:var(--shadow);padding:4px 24px}
+    details{border-bottom:1px solid var(--border)}details:last-child{border:0}
+    summary{list-style:none;cursor:pointer;font-weight:900;padding:18px 0;display:flex;justify-content:space-between;gap:16px}summary:after{content:"⌄";color:var(--muted-foreground);transition:.2s}details[open] summary:after{transform:rotate(180deg)}
+    details p{margin:0 0 18px;color:var(--muted-foreground);line-height:1.65;font-weight:700}
+    .cta-card{position:relative;overflow:hidden;text-align:center;color:#fff;border-radius:34px;background:linear-gradient(270deg,var(--primary),#1474b7);box-shadow:0 24px 60px rgba(31,150,212,.25);padding:60px 28px}
+    .cta-card:before,.cta-card:after{content:"";position:absolute;width:250px;height:250px;border-radius:999px;filter:blur(48px)}.cta-card:before{right:-80px;top:-90px;background:rgba(245,158,11,.32)}.cta-card:after{left:-80px;bottom:-90px;background:rgba(255,255,255,.14)}
+    .cta-card>*{position:relative}.cta-card h2{font-size:clamp(34px,4vw,54px);margin:0}.cta-card p{font-size:19px;color:rgba(255,255,255,.9);max-width:620px;margin:18px auto 28px;line-height:1.65}
+    .footer{border-top:1px solid var(--border);background:#fff}.footer-inner{padding:36px 0;display:flex;align-items:center;justify-content:space-between;gap:20px;color:var(--muted-foreground);font-size:14px}.footer .brand{color:var(--foreground)}.footer .site-logo{width:96px;height:72px}
+    .overlay{position:fixed;inset:0;z-index:80;background:rgba(15,23,42,.38);opacity:0;pointer-events:none;transition:.2s}
+    .overlay.open{opacity:1;pointer-events:auto}
+    .drawer{position:fixed;top:0;bottom:0;left:0;z-index:90;width:min(430px,100%);background:#fff;box-shadow:20px 0 60px rgba(15,23,42,.18);transform:translateX(-105%);transition:.25s ease;display:flex;flex-direction:column}
+    .drawer.open{transform:none}
+    .drawer-head{height:72px;padding:0 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .drawer-head h2{font-size:23px;margin:0}.close{width:40px;height:40px;border:1px solid var(--border);background:#fff;border-radius:12px;cursor:pointer;font-size:22px}
+    .drawer-body{padding:20px;overflow:auto;flex:1}.empty{height:220px;display:grid;place-items:center;text-align:center;color:var(--muted-foreground);font-weight:800}
+    .cart-line{display:grid;grid-template-columns:74px 1fr auto;gap:12px;align-items:center;border:1px solid var(--border);border-radius:18px;padding:10px;margin-bottom:12px}
+    .cart-line img{width:72px;height:56px;object-fit:contain}.cart-line b{display:block}.cart-line small{color:var(--muted-foreground);font-weight:750}.cart-total{border-top:1px solid var(--border);padding:18px 20px 22px}.cart-total-row{display:flex;justify-content:space-between;align-items:center;font-size:22px;font-weight:900;margin-bottom:14px}
+    .discount-row{display:flex;justify-content:space-between;color:#16813b;font-weight:900;margin:-4px 0 12px}
+    @media(max-width:860px){
+      .nav{display:none}.cart-btn .label{display:none}.hero-grid{grid-template-columns:1fr;text-align:center;padding:54px 0 64px}.hero-actions,.rating{justify-content:center}.hero-meta{justify-content:center;flex-wrap:wrap}.hero-img{max-width:360px}.trust-grid{grid-template-columns:1fr 1fr}.products-grid,.features-grid,.reviews-grid{grid-template-columns:1fr}.footer-inner{flex-direction:column;text-align:center}
     }
-
-    /* ── SERVICE STRIP ─────────────────────────────── */
-    .svc-strip {
-      background: var(--blue-dark);
-      display: flex;
-      overflow: hidden;
-    }
-    .svc-item {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      padding: 7px 8px;
-      font-size: 11px;
-      color: rgba(255,255,255,.88);
-      border-left: 1px solid rgba(255,255,255,.15);
-    }
-    .svc-item:last-child { border-left: none; }
-    .svc-em { font-size: 15px; }
-    .svc-t strong { display: block; font-size: 11px; font-weight: 700; line-height: 1.25; }
-    .svc-t span   { font-size: 9.5px; opacity: .78; }
-
-    /* ── HEADER ───────────────────────────────────── */
-    .header {
-      position: sticky; top: 0; z-index: 300;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-    }
-    .hdr-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 16px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .ham { font-size: 22px; cursor: pointer; padding: 4px; }
-
-    /* Real logo image */
-    .logo-img { height: 62px; width: auto; display: block; }
-
-    .cart-btn { position: relative; font-size: 22px; cursor: pointer; padding: 4px; }
-    .cart-badge {
-      position: absolute; top: -2px; left: -2px;
-      background: var(--orange); color: #fff;
-      font-size: 10px; font-weight: 700;
-      min-width: 17px; height: 17px; border-radius: 9px;
-      display: flex; align-items: center; justify-content: center; padding: 0 3px;
-    }
-
-    /* ── HERO ─────────────────────────────────────── */
-    .hero {
-      position: relative;
-      overflow: hidden;
-      background:
-        linear-gradient(to left, rgba(5,20,80,.15) 0%, rgba(8,48,128,.50) 40%, rgba(8,48,128,.88) 100%),
-        url('assets/gun-blue.jpg') center 55% / cover no-repeat;
-    }
-
-    .hero-wave {
-      position: absolute; bottom: -2px; left: 0; right: 0; z-index: 3; line-height: 0;
-    }
-    .hero-wave svg { display: block; width: 100%; }
-
-    .hero-body {
-      position: relative; z-index: 2;
-      max-width: 1100px; margin: 0 auto;
-      padding: 22px 16px 0;
-      display: flex;
-      align-items: flex-end;
-      gap: 4px;
-      min-height: 240px;
-    }
-
-    /* RTL: first child = RIGHT side visually */
-    .hero-gun-col {
-      flex: 0 0 46%;
-      display: flex; align-items: flex-end; justify-content: center;
-    }
-    .hero-gun-img {
-      width: 100%;
-      max-width: 240px;
-      display: block;
-      filter: drop-shadow(0 8px 32px rgba(0,60,180,.7));
-    }
-
-    .hero-txt {
-      flex: 1;
-      color: #fff;
-      padding-bottom: 20px;
-    }
-    .hero-title {
-      font-size: clamp(24px, 6.5vw, 44px);
-      font-weight: 900;
-      line-height: 1.18;
-      text-shadow: 0 2px 14px rgba(0,0,0,.5);
-      margin-bottom: 6px;
-    }
-    .hero-title .gold { color: var(--gold); }
-    .hero-sub {
-      font-size: 13px;
-      color: rgba(255,255,255,.82);
-    }
-
-    /* Pills row */
-    .pills-row {
-      position: relative; z-index: 2;
-      max-width: 1100px; margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 6px;
-      padding: 12px 16px 26px;
-    }
-    .pill {
-      background: rgba(255,255,255,.18);
-      border: 1px solid rgba(255,255,255,.28);
-      border-radius: 11px;
-      padding: 8px 6px;
-      display: flex; align-items: center; gap: 7px;
-      backdrop-filter: blur(6px);
-    }
-    .pill-ic  { font-size: 18px; flex-shrink: 0; }
-    .pill-val { font-size: 11px; font-weight: 700; color: #fff; line-height: 1.2; }
-    .pill-lbl { font-size: 9px; color: rgba(255,255,255,.72); }
-
-    /* ── SHIPPING BANNER ─────────────────────────── */
-    .ship-bar {
-      background: var(--blue);
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      padding: 13px 16px;
-      color: #fff; font-size: 15px; font-weight: 700;
-    }
-    .ship-bar small { font-size: 12px; font-weight: 400; opacity: .88; }
-
-    /* ── SHARED ──────────────────────────────────── */
-    .section     { padding: 32px 16px; }
-    .section-max { max-width: 1100px; margin: 0 auto; }
-
-    .sec-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: #fff3cd; border: 1px solid var(--gold);
-      border-radius: 20px; padding: 5px 14px;
-      font-size: 12px; font-weight: 700; color: #856404;
-      margin-bottom: 10px;
-    }
-    .sec-heading {
-      font-size: clamp(19px, 5vw, 28px);
-      font-weight: 900; line-height: 1.28;
-      margin-bottom: 6px;
-    }
-    .sec-sub {
-      font-size: 13px; color: var(--muted);
-      margin-bottom: 18px; line-height: 1.5;
-    }
-
-    /* ── VIDEO SECTION ───────────────────────────── */
-    .vid-layout { display: flex; flex-direction: column; gap: 20px; }
-
-    .vid-feats {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-      margin-bottom: 18px;
-    }
-    .vf { display: flex; align-items: center; gap: 10px; }
-    .vf-ic {
-      width: 40px; height: 40px; flex-shrink: 0;
-      background: #e3f2fd; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center; font-size: 20px;
-    }
-    .vf-strong { font-size: 13px; font-weight: 700; display: block; }
-    .vf-small  { font-size: 11px; color: var(--muted); }
-
-    .btn-orange-full {
-      width: 100%;
-      background: linear-gradient(135deg, var(--orange), var(--orange-lt));
-      color: #fff; border: none; border-radius: 14px;
-      padding: 16px 20px; font-size: 17px; font-weight: 800;
-      cursor: pointer; font-family: 'Heebo', sans-serif;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      box-shadow: 0 6px 20px rgba(255,98,0,.35);
-      transition: transform .15s, box-shadow .15s;
-      margin-bottom: 18px;
-    }
-    .btn-orange-full:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(255,98,0,.45); }
-
-    .video-box {
-      position: relative; border-radius: var(--radius);
-      overflow: hidden; aspect-ratio: 16/9;
-      cursor: pointer; box-shadow: 0 4px 24px rgba(0,0,0,.15);
-      background: #0a1628;
-    }
-    .vid-bg {
-      width: 100%; height: 100%;
-      background: linear-gradient(140deg, #0d1f3c 0%, #1565c0 70%, #0288d1 100%);
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 8px;
-      color: rgba(255,255,255,.6); font-size: 13px; text-align: center;
-    }
-    .play-btn {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      width: 62px; height: 62px; border-radius: 50%;
-      background: rgba(255,255,255,.92);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; padding-right: 3px;
-      box-shadow: 0 8px 28px rgba(0,0,0,.4);
-      transition: transform .15s;
-    }
-    .video-box:hover .play-btn { transform: translate(-50%,-50%) scale(1.08); }
-    .vid-time {
-      position: absolute; bottom: 8px; right: 8px;
-      background: rgba(0,0,0,.62); color: #fff;
-      font-size: 11px; padding: 3px 7px; border-radius: 5px;
-    }
-
-    /* ── PRODUCT SECTION ─────────────────────────── */
-    .prod-sec { background: var(--surface); padding: 32px 16px; }
-    .prod-max { max-width: 1100px; margin: 0 auto; }
-
-    .prod-cards {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 12px; margin-bottom: 12px;
-    }
-    .pcard {
-      background: var(--white);
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      padding: 12px 10px 14px;
-      position: relative; cursor: pointer;
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      transition: border-color .18s, box-shadow .18s;
-    }
-    .pcard.on { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(21,101,192,.12); }
-
-    .pc-radio {
-      position: absolute; top: 10px; right: 10px;
-      width: 19px; height: 19px; border-radius: 50%;
-      border: 2px solid var(--border); background: var(--white);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .pcard.on .pc-radio { border-color: var(--blue); background: var(--blue); }
-    .pcard.on .pc-radio::after { content: ''; width: 7px; height: 7px; background: #fff; border-radius: 50%; }
-
-    .pc-del {
-      position: absolute; top: 10px; left: 10px;
-      background: none; border: none; font-size: 14px;
-      cursor: pointer; color: #bbb; line-height: 1;
-    }
-    .pc-del:hover { color: #e53935; }
-
-    /* Product image */
-    .pc-img-wrap {
-      width: 100%; height: 120px;
-      border-radius: 10px; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .pc-img-wrap img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center 60%;
-    }
-
-    .pc-name  { font-size: 16px; font-weight: 800; }
-    .pc-price { font-size: 13px; color: var(--blue); font-weight: 600; }
-
-    .qty-ctrl { display: flex; align-items: center; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; }
-    .qb {
-      width: 34px; height: 34px; background: var(--surface);
-      border: none; font-size: 18px; font-weight: 700;
-      cursor: pointer; color: var(--text);
-      display: flex; align-items: center; justify-content: center;
-      user-select: none;
-    }
-    .qb:hover { background: var(--border); }
-    .qv {
-      width: 34px; text-align: center;
-      font-size: 15px; font-weight: 700;
-      background: #fff; border: none; outline: none; pointer-events: none;
-    }
-
-    .add-color-btn {
-      width: 100%;
-      background: none; border: 2px dashed #b0bec5;
-      border-radius: 12px; padding: 12px;
-      font-size: 14px; font-weight: 600; color: var(--muted);
-      cursor: pointer; font-family: 'Heebo', sans-serif;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      transition: border-color .15s, color .15s;
-    }
-    .add-color-btn:hover { border-color: var(--blue); color: var(--blue); }
-
-    /* ── ORDER SUMMARY ───────────────────────────── */
-    .order-sec { padding: 24px 16px; }
-    .order-card {
-      background: var(--white);
-      border-radius: 20px; padding: 22px;
-      box-shadow: 0 4px 28px rgba(0,0,0,.09);
-      max-width: 1100px; margin: 0 auto;
-    }
-    .order-hdg { font-size: 18px; font-weight: 800; margin-bottom: 14px; }
-
-    .order-tbl { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 14px; }
-    .order-tbl td { padding: 8px 4px; border-bottom: 1px solid #f0f4fa; }
-    .order-tbl td:last-child { text-align: left; font-weight: 600; color: var(--blue); }
-    .order-tbl .sub-r td { font-size: 12px; color: var(--muted); border-bottom: none; }
-    .order-tbl .tot-r td { font-size: 16px; font-weight: 800; border-top: 2px solid var(--border); border-bottom: none; padding-top: 10px; }
-    .order-tbl .tot-r td:first-child { color: var(--text); }
-    .order-tbl .tot-r td:last-child  { font-size: 18px; color: var(--blue); }
-
-    .gift-row {
-      background: #fff8e1; border: 1.5px solid var(--gold);
-      border-radius: 12px; padding: 12px 14px;
-      display: flex; align-items: flex-start; gap: 10px;
-      margin-bottom: 18px;
-    }
-    .gi { font-size: 26px; }
-    .gtt strong { font-size: 14px; font-weight: 700; display: block; }
-    .gtt span   { font-size: 12px; color: var(--muted); }
-
-    .price-blk { text-align: center; margin-bottom: 16px; }
-    .price-orig  { font-size: 14px; color: #9e9e9e; text-decoration: line-through; margin-bottom: 2px; }
-    .price-final { font-size: 32px; font-weight: 900; }
-    .price-final small { font-size: 14px; font-weight: 400; color: var(--muted); }
-
-    .btn-cart {
-      width: 100%;
-      background: linear-gradient(135deg, var(--orange), var(--orange-lt));
-      color: #fff; border: none; border-radius: 14px;
-      padding: 17px; font-size: 18px; font-weight: 800;
-      cursor: pointer; font-family: 'Heebo', sans-serif;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      box-shadow: 0 6px 20px rgba(255,98,0,.38);
-      transition: transform .15s, box-shadow .15s;
-    }
-    .btn-cart:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,98,0,.48); }
-    .btn-cart.done { background: linear-gradient(135deg, #1b5e20, #2e7d32); box-shadow: none; }
-
-    .pay-row {
-      display: flex; align-items: center; justify-content: center;
-      gap: 8px; flex-wrap: wrap; margin-top: 14px;
-    }
-    .pay-chip {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 7px; padding: 5px 11px;
-      font-size: 11px; font-weight: 700; color: var(--muted);
-    }
-    .pay-chip.apple { background: #000; color: #fff; border-color: #000; }
-    .secure-ln { text-align: center; font-size: 11px; color: #9e9e9e; margin-top: 10px; }
-
-    /* ── TRUST ───────────────────────────────────── */
-    .trust-sec { background: var(--white); padding: 28px 16px; border-top: 1px solid var(--border); }
-    .trust-grid {
-      max-width: 1100px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
-    }
-    .tb { display: flex; align-items: center; gap: 10px; }
-    .tb-ic {
-      width: 46px; height: 46px; flex-shrink: 0;
-      background: #e3f2fd; border-radius: 13px;
-      display: flex; align-items: center; justify-content: center; font-size: 22px;
-    }
-    .tb-strong { font-size: 13px; font-weight: 700; display: block; }
-    .tb-small  { font-size: 11px; color: var(--muted); }
-
-    /* ── STICKY CTA ──────────────────────────────── */
-    .sticky-cta {
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
-      background: linear-gradient(135deg, var(--orange), var(--orange-lt));
-      color: #fff;
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      padding: 13px 20px;
-      box-shadow: 0 -4px 20px rgba(0,0,0,.18);
-      cursor: pointer;
-    }
-    .sticky-cta:hover { filter: brightness(1.06); }
-    .cta-main { font-size: 18px; font-weight: 800; line-height: 1.2; }
-    .cta-sub  { font-size: 11px; opacity: .9; }
-
-    /* ── RESPONSIVE ──────────────────────────────── */
-    @media (min-width: 640px) {
-      .hero-gun-img { max-width: 290px; }
-      .hero-title   { font-size: 36px; }
-    }
-
-    @media (min-width: 820px) {
-      .vid-layout {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
-      }
-      .vid-layout > div:first-child { order: 2; } /* text right in RTL = first, but visually keep text on right */
-      .vid-layout > div:last-child  { order: 1; }
-      .btn-orange-full { max-width: 400px; }
-
-      .trust-grid { grid-template-columns: repeat(5,1fr); }
-      .tb { flex-direction: column; text-align: center; }
-    }
-
-    @media (max-width: 380px) {
-      .hero-title { font-size: 20px; }
-      .pills-row  { grid-template-columns: 1fr 1fr; padding-bottom: 22px; }
-      .pc-img-wrap { height: 95px; }
+    @media(max-width:520px){
+      .container{width:min(100% - 24px,1152px)}.brand{font-size:17px}.site-logo{width:70px;height:52px}.hero h1{font-size:38px}.hero p{font-size:18px}.hero p br{display:none}.button{width:100%}.hero-meta{font-size:13px}.trust-grid{grid-template-columns:1fr}.product-body{padding:20px}.section{padding:62px 0}
     }
   </style>
 </head>
 <body>
-
-<!-- ══ SERVICE STRIP ══════════════════════════════════════ -->
-<div class="svc-strip">
-  <div class="svc-item">
-    <span class="svc-em">🚚</span>
-    <div class="svc-t"><strong>משלוח מהיר</strong><span>1-3 ימים</span></div>
-  </div>
-  <div class="svc-item">
-    <span class="svc-em">💬</span>
-    <div class="svc-t"><strong>שירות לקוחות</strong><span>24/7</span></div>
-  </div>
-  <div class="svc-item">
-    <span class="svc-em">🔒</span>
-    <div class="svc-t"><strong>ביטוח SSL</strong><span>תשלום בטוח</span></div>
-  </div>
-</div>
-
-<!-- ══ HEADER ════════════════════════════════════════════ -->
-<header class="header">
-  <div class="hdr-row">
-    <span class="ham">☰</span>
-    <img src="assets/logo.webp" alt="המרכז לרובי מים" class="logo-img" />
-    <div class="cart-btn" onclick="scrollToOrder()">
-      🛒<div class="cart-badge" id="cartBadge">0</div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="המרכז לרובי מים">
+        <img class="site-logo" src="assets/site-logo.png" alt="המרכז לרובי מים">
+      </a>
+      <nav class="nav">
+        <a href="#products">המוצרים</a>
+        <a href="#features">יתרונות</a>
+        <a href="#reviews">המלצות</a>
+        <a href="#faq">שאלות נפוצות</a>
+      </nav>
+      <button class="cart-btn" type="button" data-action="open-cart" aria-label="פתח סל קניות"><span>🛒</span><span class="label">סל קניות</span><span class="cart-badge" id="cartBadge">0</span></button>
     </div>
-  </div>
-</header>
+  </header>
 
-<!-- ══ HERO ══════════════════════════════════════════════ -->
-<section class="hero">
-  <div class="hero-body">
-    <!-- Gun image – first child → RIGHT side in RTL -->
-    <div class="hero-gun-col">
-      <img src="assets/gun-blue.jpg" alt="רובה המים" class="hero-gun-img" />
-    </div>
-
-    <!-- Text – second child → LEFT side in RTL -->
-    <div class="hero-txt">
-      <h1 class="hero-title">
-        רובה המים<br>
-        שמשנה את הקרב<br>
-        <span class="gold">לגלגיה אחרת!</span>
-      </h1>
-      <p class="hero-sub">עצמאי: מתקדם. בלתי לעצירה.</p>
-    </div>
-  </div>
-
-  <!-- Feature pills -->
-  <div class="pills-row">
-    <div class="pill">
-      <span class="pill-ic">🔋</span>
-      <div><div class="pill-val">1200mAh</div><div class="pill-lbl">סוללה נטענת</div></div>
-    </div>
-    <div class="pill">
-      <span class="pill-ic">💧</span>
-      <div><div class="pill-val">1200ml</div><div class="pill-lbl">מכל מים</div></div>
-    </div>
-    <div class="pill">
-      <span class="pill-ic">🎯</span>
-      <div><div class="pill-val">8+ מ׳</div><div class="pill-lbl">טווח ירי</div></div>
-    </div>
-    <div class="pill">
-      <span class="pill-ic">⚡</span>
-      <div><div class="pill-val">USB</div><div class="pill-lbl">טעינה מהירה</div></div>
-    </div>
-  </div>
-
-  <!-- Bottom wave -->
-  <div class="hero-wave">
-    <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <path d="M0 28C240 56 480 0 720 28C960 56 1200 0 1440 28L1440 56H0Z" fill="#ffffff"/>
-    </svg>
-  </div>
-</section>
-
-<!-- ══ SHIPPING BANNER ═══════════════════════════════════ -->
-<div class="ship-bar">
-  📦 <strong>משלוח חינם</strong> <small>| 1-3 ימי עסקים</small>
-</div>
-
-<!-- ══ VIDEO SECTION ═════════════════════════════════════ -->
-<section class="section">
-  <div class="section-max">
-    <div class="vid-layout">
-      <!-- Text + features + CTA -->
-      <div>
-        <div class="sec-badge">⭐ צוות כרובה בפעולה</div>
-        <h2 class="sec-heading">תראו למה הילדים<br>לא מפסיקים לשחק איתנו!</h2>
-        <p class="sec-sub">ירי מים עוצמתי, תאורת LED מרהיבה –<br>גלגיית מים מדרגה ראשונה!</p>
-
-        <div class="vid-feats">
-          <div class="vf"><div class="vf-ic">⚡</div><div><span class="vf-strong">USB טעינה</span><span class="vf-small">נוחות מלאה</span></div></div>
-          <div class="vf"><div class="vf-ic">💡</div><div><span class="vf-strong">LED אורות</span><span class="vf-small">מרהיב בלילה</span></div></div>
-          <div class="vf"><div class="vf-ic">💧</div><div><span class="vf-strong">שאיבת מים</span><span class="vf-small">מהירה ואוטומטית</span></div></div>
-          <div class="vf"><div class="vf-ic">🤖</div><div><span class="vf-strong">ירי אוטומטי</span><span class="vf-small">רציף ועוצמתי</span></div></div>
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-bg"></div>
+      <div class="container hero-grid">
+        <div class="fade-up">
+          <div class="badge">★ הלהיט של הקיץ 2026</div>
+          <h1>רובה המים שמשגע<br><span class="gradient-text">את הקיץ</span></h1>
+          <p>טווח ירי עד 10 מטר, סוללה נטענת, שאיבה אוטומטית ואורות LED.<br>הילדים (וגם אתם) לא יוכלו להניח אותו.</p>
+          <div class="hero-actions">
+            <a class="button" href="#products">הזמינו עכשיו – 89₪</a>
+            <div class="hero-meta"><span>🚚 משלוח חינם</span><span>🛡️ החזר 14 יום</span></div>
+          </div>
+          <div class="rating"><span class="stars">★★★★★</span><strong>4.9 / 5</strong><span style="color:var(--muted-foreground)">(מאות לקוחות מרוצים)</span></div>
         </div>
-
-        <button class="btn-orange-full" onclick="scrollToOrder()">
-          🛒 אני רוצה גם – הזמן עכשיו
-        </button>
+        <div class="hero-visual fade-up delay"><img class="hero-img" src="assets/gun-blue-new.png" alt="רובה מים כחול שקוף"></div>
       </div>
+    </section>
 
-      <!-- Video player -->
-      <div class="video-box" onclick="playVideo(this)">
-        <div class="vid-bg">
-          <span style="font-size:42px">🎬</span>
-          <span>ילדים משחקים עם רובה המים</span>
-        </div>
-        <div class="play-btn">▶</div>
-        <div class="vid-time">0:00 / 0:24</div>
+    <section class="trust">
+      <div class="container trust-grid">
+        <div class="trust-item"><span class="icon">🚚</span><div><b>משלוח חינם</b><small>לכל הארץ מעל 89₪</small></div></div>
+        <div class="trust-item"><span class="icon">🛡️</span><div><b>אחריות 12 חודש</b><small>ישירות מהיבואן</small></div></div>
+        <div class="trust-item"><span class="icon">↻</span><div><b>החזר תוך 14 יום</b><small>ללא שאלות מיותרות</small></div></div>
+        <div class="trust-item"><span class="icon">🔒</span><div><b>תשלום מאובטח</b><small>הצפנה ברמת בנק</small></div></div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ══ PRODUCT SELECT ═════════════════════════════════════ -->
-<section class="prod-sec" id="orderSection">
-  <div class="prod-max">
-    <h2 class="sec-heading">בחרו את הצבעים והכמויות שלכם</h2>
-    <p class="sec-sub">ניתן לשנות כמויות ולהוסיף צבעים נוספים ביחד</p>
-
-    <div class="prod-cards">
-      <!-- BLUE -->
-      <div class="pcard on" id="card-blue" onclick="toggleCard('blue')">
-        <div class="pc-radio" id="radio-blue"></div>
-        <button class="pc-del" onclick="event.stopPropagation();removeCard('blue')">✕</button>
-        <div class="pc-img-wrap">
-          <img src="assets/gun-blue.jpg" alt="רובה מים כחול" />
+    <section class="section" id="products">
+      <div class="container">
+        <div class="section-head">
+          <h2>בחרו מוצר ווריאציה</h2>
+          <p>בחרו בין רובה מים קליל לבין תותח מים עוצמתי. כל מוצר מגיע עם כבל טעינה, סוללה נטענת ומיכל מים.</p>
         </div>
-        <div class="pc-name">כחול</div>
-        <div class="pc-price">₪89 ליחידה</div>
-        <div class="qty-ctrl" onclick="event.stopPropagation()">
-          <button class="qb" onclick="changeQty('blue',-1)">−</button>
-          <span class="qv" id="qty-blue">2</span>
-          <button class="qb" onclick="changeQty('blue',1)">+</button>
+        <div class="products-grid">
+          <article class="product-card" data-product-card="gun">
+            <div class="product-media"><img id="gunImage" src="assets/gun-blue-new.png" alt="רובה מים"><span class="price">מבצע</span></div>
+            <div class="product-body">
+              <h3>רובה מים</h3>
+              <p>קל, מהיר ומושלם לים ולבריכה</p>
+              <div class="price-row"><strong class="sale-price">₪79.90</strong><span class="regular-price">₪100</span></div>
+              <ul class="checks"><li>עיצוב שקוף עתידני</li><li>אפקט תאורה מרשים</li><li>אחיזה נוחה למשחק</li><li>מושלם לימי הקיץ</li></ul>
+              <div class="color-select"><span>בחרו צבע:</span><strong id="gunVariantLabel">כחול שקוף</strong></div>
+              <div class="variant-options">
+                <button class="variant-btn active" type="button" data-select-product="gun" data-select-variant="gunBlue"><span class="swatch blue"></span>כחול</button>
+                <button class="variant-btn" type="button" data-select-product="gun" data-select-variant="gunBlack"><span class="swatch black"></span>שחור</button>
+              </div>
+              <button class="button full" type="button" data-add-selected="gun">הוסיפו לסל</button>
+            </div>
+          </article>
+          <article class="product-card" data-product-card="cannon">
+            <div class="product-media"><img id="cannonImage" src="assets/cannon-blue.png" alt="תותח מים"><span class="price">מבצע</span></div>
+            <div class="product-body">
+              <h3>תותח מים</h3>
+              <p>עוצמה גבוהה יותר למשחקי מים גדולים</p>
+              <div class="price-row"><strong class="sale-price">₪99.90</strong><span class="regular-price">₪119</span></div>
+              <ul class="checks"><li>נטען ב-USB</li><li>סוללת ליתיום כלולה</li><li>מיכל מים נשלף</li><li>מתאים במיוחד לקיץ</li></ul>
+              <div class="color-select"><span>בחרו צבע:</span><strong id="cannonVariantLabel">כחול שקוף</strong></div>
+              <div class="variant-options">
+                <button class="variant-btn active" type="button" data-select-product="cannon" data-select-variant="cannonBlue"><span class="swatch blue"></span>כחול</button>
+                <button class="variant-btn" type="button" data-select-product="cannon" data-select-variant="cannonBlack"><span class="swatch black"></span>שחור</button>
+                <button class="variant-btn" type="button" data-select-product="cannon" data-select-variant="cannonRed"><span class="swatch red"></span>אדום</button>
+              </div>
+              <button class="button full" type="button" data-add-selected="cannon">הוסיפו לסל</button>
+            </div>
+          </article>
         </div>
       </div>
+    </section>
 
-      <!-- BLACK -->
-      <div class="pcard on" id="card-black" onclick="toggleCard('black')">
-        <div class="pc-radio" id="radio-black"></div>
-        <button class="pc-del" onclick="event.stopPropagation();removeCard('black')">✕</button>
-        <div class="pc-img-wrap">
-          <img src="assets/gun-black.jpg" alt="רובה מים שחור" />
-        </div>
-        <div class="pc-name">שחור</div>
-        <div class="pc-price">₪89 ליחידה</div>
-        <div class="qty-ctrl" onclick="event.stopPropagation()">
-          <button class="qb" onclick="changeQty('black',-1)">−</button>
-          <span class="qv" id="qty-black">4</span>
-          <button class="qb" onclick="changeQty('black',1)">+</button>
+    <section class="section muted" id="features">
+      <div class="container">
+        <div class="section-head"><h2>למה כולם בוחרים במרכז לרובי מים?</h2></div>
+        <div class="features-grid">
+          <article class="feature-card"><span class="icon">🎯</span><h3>טווח ירי עד 10 מטר</h3><p>זרם מים חזק ומדויק למשחקי קיץ, ים, בריכה וחצר.</p></article>
+          <article class="feature-card"><span class="icon">🔋</span><h3>סוללה נטענת</h3><p>טעינה נוחה בכבל USB-C בלי להחליף סוללות כל פעם מחדש.</p></article>
+          <article class="feature-card"><span class="icon">💡</span><h3>אורות LED מובנים</h3><p>מראה עתידני שמוסיף אפקט וואו, במיוחד במשחקי ערב.</p></article>
         </div>
       </div>
-    </div>
+    </section>
 
-    <button class="add-color-btn">+ הוסף צבע נוסף</button>
-  </div>
-</section>
-
-<!-- ══ ORDER SUMMARY ═════════════════════════════════════ -->
-<section class="order-sec">
-  <div class="order-card">
-    <div class="order-hdg">סיכום הזמנה</div>
-
-    <table class="order-tbl">
-      <tbody id="orderBody"></tbody>
-      <tfoot>
-        <tr class="tot-r">
-          <td>מחיר סופי</td>
-          <td id="totalCell">₪534</td>
-        </tr>
-      </tfoot>
-    </table>
-
-    <div class="gift-row">
-      <span class="gi">🎁</span>
-      <div class="gtt">
-        <strong>מתנה בחינם לכל הזמנה!</strong>
-        <span>כל ילד שמזמין יקבל מתנה נוספת מפתיעה</span>
+    <section class="section" id="reviews">
+      <div class="container">
+        <div class="section-head"><h2>לקוחות מספרים</h2></div>
+        <div class="reviews-grid">
+          <article class="review"><div class="stars">★★★★★</div><p>"קניתי שניים לאחיינים שלי – הצלחה ענקית. הגיע מהר ובאריזה מהממת."</p><b>מאיה ל.</b><small>חיפה</small></article>
+          <article class="review"><div class="stars">★★★★★</div><p>"טווח הירי באמת מטורף, האורות מוסיפים אפקט וואו. שווה כל שקל."</p><b>אורי ב.</b><small>ירושלים</small></article>
+          <article class="review"><div class="stars">★★★★★</div><p>"הילדים לא מפסיקים לשחק. נראה איכותי והגיע תוך כמה ימים."</p><b>דנה ש.</b><small>רמת גן</small></article>
+        </div>
       </div>
+    </section>
+
+    <section class="section muted" id="faq">
+      <div class="container">
+        <div class="section-head"><h2>שאלות נפוצות</h2></div>
+        <div class="faq-card">
+          <details><summary>כמה זמן לוקח המשלוח?</summary><p>בדרך כלל 1-4 ימי עסקים, בהתאם לאזור החלוקה.</p></details>
+          <details><summary>מה מדיניות ההחזרים?</summary><p>אפשר להחזיר מוצר שלא נעשה בו שימוש עד 14 יום מקבלת המשלוח.</p></details>
+          <details><summary>מאיזה גיל מתאים?</summary><p>מומלץ מגיל 6 ומעלה, בהשגחת מבוגר ובהתאם להוראות השימוש.</p></details>
+          <details><summary>כמה זמן מחזיקה הסוללה?</summary><p>זמן המשחק משתנה לפי שימוש, והטעינה מתבצעת בכבל USB-C המצורף.</p></details>
+          <details><summary>האם יש אחריות?</summary><p>כן, אחריות 12 חודש על תקלות ייצור.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container" style="max-width:896px">
+        <div class="cta-card">
+          <h2>מוכנים לקרב המים?</h2>
+          <p>הזמינו עכשיו, המשלוח עליי. הילדים יזכרו לכם את זה כל הקיץ.</p>
+          <a class="button" href="#products">קחו אותי לרובים – 89₪</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="brand"><img class="site-logo" src="assets/site-logo.png" alt="המרכז לרובי מים"></div>
+      <div><div>שירות לקוחות: support@aquashark.co.il</div><div>ימים א'-ה' 09:00-18:00</div><div><a href="terms.html">תקנון, ביטולים והחזרות</a></div></div>
+      <div>© 2026 המרכז לרובי מים. כל הזכויות שמורות.</div>
     </div>
+  </footer>
 
-    <div class="price-blk">
-      <div class="price-orig" id="origPrice">מחיר רגיל: ₪800</div>
-      <div class="price-final" id="finalPrice">₪534 <small>לתשלום</small></div>
+  <div class="overlay" id="overlay" data-action="close-cart"></div>
+  <aside class="drawer" id="drawer" aria-label="סל קניות">
+    <div class="drawer-head"><h2>סל קניות</h2><button class="close" type="button" data-action="close-cart">×</button></div>
+    <div class="drawer-body" id="cartItems"></div>
+    <div class="cart-total">
+      <div class="cart-total-row"><span>סה״כ</span><span id="cartTotal">₪0</span></div>
+      <button class="button primary full" type="button" data-action="checkout">מעבר לתשלום מאובטח</button>
     </div>
+  </aside>
 
-    <button class="btn-cart" id="addCartBtn" onclick="addToCart()">
-      🛒 הוסף לסל
-    </button>
+  <script>
+    const products = {
+      gunBlue: { product: 'gun', name: 'רובה מים', variant: 'כחול שקוף', regularPrice: 100, price: 79.9, image: 'assets/gun-blue-new.png' },
+      gunBlack: { product: 'gun', name: 'רובה מים', variant: 'שחור', regularPrice: 100, price: 79.9, image: 'assets/gun-black-new.png' },
+      cannonBlue: { product: 'cannon', name: 'תותח מים', variant: 'כחול שקוף', regularPrice: 119, price: 99.9, image: 'assets/cannon-blue.png' },
+      cannonBlack: { product: 'cannon', name: 'תותח מים', variant: 'שחור שקוף', regularPrice: 119, price: 99.9, image: 'assets/cannon-black.png' },
+      cannonRed: { product: 'cannon', name: 'תותח מים', variant: 'אדום שקוף', regularPrice: 119, price: 99.9, image: 'assets/cannon-red.png' }
+    };
+    const cart = { gunBlue: 0, gunBlack: 0, cannonBlue: 0, cannonBlack: 0, cannonRed: 0 };
+    const selectedVariants = { gun: 'gunBlue', cannon: 'cannonBlue' };
 
-    <div class="pay-row">
-      <div class="pay-chip apple">🍎 Pay</div>
-      <div class="pay-chip">G Pay</div>
-      <div class="pay-chip">VISA</div>
-      <div class="pay-chip">Mastercard</div>
-    </div>
-    <div class="secure-ln">🔒 | 100% תשלום מאובטח SSL</div>
-  </div>
-</section>
+    function formatPrice(value) {
+      return '₪' + Number(value).toLocaleString('he-IL', { minimumFractionDigits: value % 1 ? 2 : 0, maximumFractionDigits: 2 });
+    }
 
-<!-- ══ TRUST BADGES ══════════════════════════════════════ -->
-<section class="trust-sec">
-  <div class="trust-grid">
-    <div class="tb"><div class="tb-ic">🚚</div><div><span class="tb-strong">משלוח חינם</span><span class="tb-small">1-3 ימי עסקים</span></div></div>
-    <div class="tb"><div class="tb-ic">🛡️</div><div><span class="tb-strong">אחריות מלאה</span><span class="tb-small">12 חודשים</span></div></div>
-    <div class="tb"><div class="tb-ic">🔒</div><div><span class="tb-strong">שלוח בטוח SSL</span><span class="tb-small">מוצפן 100%</span></div></div>
-    <div class="tb"><div class="tb-ic">💬</div><div><span class="tb-strong">שירות לקוחות</span><span class="tb-small">24/7 זמין</span></div></div>
-    <div class="tb"><div class="tb-ic">↩️</div><div><span class="tb-strong">החזרות קלות</span><span class="tb-small">עד 14 ימים</span></div></div>
-  </div>
-</section>
+    function discountRateFor(count) {
+      if (count >= 4) return 0.18;
+      if (count === 3) return 0.15;
+      if (count === 2) return 0.10;
+      return 0;
+    }
 
-<!-- ══ STICKY CTA ════════════════════════════════════════ -->
-<div class="sticky-cta" onclick="scrollToOrder()">
-  <span style="font-size:22px">🛒</span>
-  <div>
-    <div class="cta-main">הוסף לסל עכשיו</div>
-    <div class="cta-sub">התחילו להילחם במים ברובה המים המקצועי</div>
-  </div>
-</div>
+    function selectVariant(product, variantKey) {
+      selectedVariants[product] = variantKey;
+      const variant = products[variantKey];
+      document.getElementById(product + 'Image').src = variant.image;
+      document.getElementById(product + 'Image').alt = variant.name + ' ' + variant.variant;
+      document.getElementById(product + 'VariantLabel').textContent = variant.variant;
+      document.querySelectorAll(`[data-select-product="${product}"]`).forEach(button => {
+        button.classList.toggle('active', button.dataset.selectVariant === variantKey);
+      });
+    }
 
-<script>
-  const PRICE = 89;
-  const s = { blue:2, black:4, blueOn:true, blackOn:true };
+    function addToCart(color) {
+      cart[color] += 1;
+      renderCart();
+      openCart();
+    }
 
-  function changeQty(c, d) {
-    s[c] = Math.max(0, s[c] + d);
-    document.getElementById('qty-' + c).textContent = s[c];
-    render();
-  }
-  function toggleCard(c) {
-    s[c+'On'] = !s[c+'On'];
-    document.getElementById('card-'+c).classList.toggle('on', s[c+'On']);
-    render();
-  }
-  function removeCard(c) {
-    s[c]=0; s[c+'On']=false;
-    document.getElementById('qty-'+c).textContent=0;
-    document.getElementById('card-'+c).classList.remove('on');
-    render();
-  }
-  function render() {
-    const bq = s.blueOn  ? s.blue  : 0;
-    const kq = s.blackOn ? s.black : 0;
-    const total = (bq+kq)*PRICE, units=bq+kq;
-    const tbody = document.getElementById('orderBody');
-    tbody.innerHTML='';
-    const row=(label,val)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${label}</td><td>${val}</td>`; tbody.appendChild(tr); };
-    if(bq>0) row(`${bq} × כחול`,`₪${bq*PRICE}`);
-    if(kq>0) row(`${kq} × שחור`,`₪${kq*PRICE}`);
-    if(units>0){ const tr=document.createElement('tr'); tr.className='sub-r'; tr.innerHTML=`<td>${units} יחידות סה"כ</td><td></td>`; tbody.appendChild(tr); }
-    document.getElementById('totalCell').textContent='₪'+total;
-    document.getElementById('origPrice').textContent='מחיר רגיל: ₪'+Math.round(total*1.5);
-    document.getElementById('finalPrice').innerHTML='₪'+total+' <small>לתשלום</small>';
-  }
-  function addToCart() {
-    const units=(s.blueOn?s.blue:0)+(s.blackOn?s.black:0);
-    if(!units){ alert('אנא בחרו לפחות יחידה אחת'); return; }
-    document.getElementById('cartBadge').textContent=units;
-    const btn=document.getElementById('addCartBtn');
-    btn.classList.add('done'); btn.innerHTML='✓ נוסף לסל!';
-    setTimeout(()=>{ btn.classList.remove('done'); btn.innerHTML='🛒 הוסף לסל'; },2500);
-  }
-  function scrollToOrder() { document.getElementById('orderSection').scrollIntoView({behavior:'smooth'}); }
-  function playVideo(el) { el.querySelector('.vid-bg').innerHTML='<div style="color:rgba(255,255,255,.6);padding:20px;text-align:center;font-size:13px">⏸ הסרטון יופעל כאן</div>'; }
-  render();
-</script>
+    function changeQty(color, delta) {
+      cart[color] = Math.max(0, cart[color] + delta);
+      renderCart();
+    }
+
+    function countItems() {
+      return Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+    }
+
+    function buildPayload() {
+      const items = Object.keys(cart).filter(color => cart[color] > 0).map(color => ({
+        id: color,
+        key: color,
+        name: products[color].name,
+        variant: products[color].variant,
+        qty: cart[color],
+        price: products[color].price,
+        regularPrice: products[color].regularPrice,
+        image: products[color].image
+      }));
+      const count = countItems();
+      const subtotal = items.reduce((sum, item) => sum + item.qty * item.price, 0);
+      const discountRate = discountRateFor(count);
+      const discount = subtotal * discountRate;
+      const total = subtotal - discount;
+      return { items, count, subtotal, discountRate, discount, total, shipping: 0 };
+    }
+
+    function renderCart() {
+      const payload = buildPayload();
+      document.getElementById('cartBadge').textContent = payload.count;
+      document.getElementById('cartTotal').textContent = formatPrice(payload.total);
+      const host = document.getElementById('cartItems');
+      if (!payload.count) {
+        host.innerHTML = '<div class="empty"><div><strong>הסל ריק</strong><br><span>בחרו מוצר כדי להמשיך לתשלום.</span></div></div>';
+        return;
+      }
+      host.innerHTML = payload.items.map(item => `
+        <div class="cart-line">
+          <img src="${item.image}" alt="${item.name} ${item.variant}">
+          <div><b>${item.name}</b><small>${item.variant} · ${formatPrice(item.price)} ליחידה</small></div>
+          <div class="qty" style="grid-template-columns:34px 34px 34px;height:36px">
+            <button type="button" data-change="${item.key}:-1">−</button>
+            <span>${item.qty}</span>
+            <button type="button" data-change="${item.key}:1">+</button>
+          </div>
+        </div>
+      `).join('') + (payload.discountRate ? `<div class="discount-row"><span>הנחת כמות ${Math.round(payload.discountRate * 100)}%</span><span>-${formatPrice(payload.discount)}</span></div>` : '');
+    }
+
+    function openCart() {
+      renderCart();
+      document.body.classList.add('locked');
+      document.getElementById('overlay').classList.add('open');
+      document.getElementById('drawer').classList.add('open');
+    }
+
+    function closeCart() {
+      document.body.classList.remove('locked');
+      document.getElementById('overlay').classList.remove('open');
+      document.getElementById('drawer').classList.remove('open');
+    }
+
+    function goCheckout() {
+      const payload = buildPayload();
+      if (!payload.count) {
+        closeCart();
+        document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      localStorage.setItem('waterGunCheckout', JSON.stringify(payload));
+      location.href = 'checkout.html';
+    }
+
+    window.addToCart = addToCart;
+    window.changeQty = changeQty;
+    window.openCart = openCart;
+    window.closeCart = closeCart;
+    window.goCheckout = goCheckout;
+    document.addEventListener('click', event => {
+      const addButton = event.target.closest('[data-add]');
+      if (addButton) {
+        addToCart(addButton.dataset.add);
+        return;
+      }
+
+      const selectedAddButton = event.target.closest('[data-add-selected]');
+      if (selectedAddButton) {
+        addToCart(selectedVariants[selectedAddButton.dataset.addSelected]);
+        return;
+      }
+
+      const variantButton = event.target.closest('[data-select-variant]');
+      if (variantButton) {
+        selectVariant(variantButton.dataset.selectProduct, variantButton.dataset.selectVariant);
+        return;
+      }
+
+      const changeButton = event.target.closest('[data-change]');
+      if (changeButton) {
+        const [color, delta] = changeButton.dataset.change.split(':');
+        changeQty(color, Number(delta));
+        return;
+      }
+
+      const actionButton = event.target.closest('[data-action]');
+      if (!actionButton) return;
+      if (actionButton.dataset.action === 'open-cart') openCart();
+      if (actionButton.dataset.action === 'close-cart') closeCart();
+      if (actionButton.dataset.action === 'checkout') goCheckout();
+    });
+    renderCart();
+  </script>
 </body>
 </html>
