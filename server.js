@@ -4,7 +4,8 @@ const path = require('path');
 
 const root = __dirname;
 const port = Number(process.env.PORT || 4173);
-const host = process.env.HOST || '127.0.0.1';
+const isRailway = Object.keys(process.env).some(key => key.startsWith('RAILWAY_'));
+const host = process.env.HOST || (isRailway ? '0.0.0.0' : '127.0.0.1');
 const apiKey = process.env.CHING_API_KEY || process.env.CHING_API_KEY_TEST;
 const apiBase = 'https://api.ching.co.il/ching/v1';
 
