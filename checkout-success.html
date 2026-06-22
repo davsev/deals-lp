@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>התשלום התקבל - המרכז לרובי מים</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;background:linear-gradient(180deg,#eef8ff,#fff);font-family:Heebo,Arial,sans-serif;color:#061c49}
+    .card{width:min(620px,calc(100% - 32px));background:#fff;border:1px solid #dbe7f3;border-radius:28px;box-shadow:0 18px 44px rgba(20,64,110,.14);padding:34px;text-align:center}
+    img{width:150px;height:92px;object-fit:contain;margin-bottom:10px}
+    .icon{width:74px;height:74px;border-radius:50%;background:#e9f8ef;color:#16813b;display:grid;place-items:center;margin:0 auto 18px;font-size:38px;font-weight:900}
+    h1{margin:0;font-size:clamp(34px,6vw,52px);line-height:1;font-weight:900}
+    p{margin:16px 0 0;color:#40546f;font-size:18px;line-height:1.7;font-weight:700}
+    .session{margin:18px 0 0;padding:12px;border-radius:14px;background:#f4f8fc;color:#53657d;font-size:13px;direction:ltr;word-break:break-all}
+    a{margin-top:24px;display:inline-flex;align-items:center;justify-content:center;height:52px;border-radius:999px;background:#0868e8;color:#fff;text-decoration:none;font-weight:900;padding:0 24px}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <img src="assets/site-logo.png" alt="המרכז לרובי מים">
+    <div class="icon">✓</div>
+    <h1>התשלום התקבל</h1>
+    <p>תודה, ההזמנה התקבלה ונשלחה לעיבוד. אם הוגדרו מייל וקבלות ב־Ching, תקבלו אישור וחשבונית לכתובת המייל שהזנתם.</p>
+    <div id="session" class="session" hidden></div>
+    <a href="index.html">חזרה לחנות</a>
+  </main>
+  <script>
+    const sessionId = new URLSearchParams(location.search).get('cs');
+    if (sessionId) {
+      const box = document.getElementById('session');
+      box.hidden = false;
+      box.textContent = `Checkout session: ${sessionId}`;
+    }
+    localStorage.removeItem('waterGunCheckout');
+  </script>
+</body>
+</html>
