@@ -24,17 +24,10 @@
     <img src="assets/site-logo.png" alt="המרכז לרובי מים">
     <div class="icon">✓</div>
     <h1>התשלום התקבל</h1>
-    <p>תודה, ההזמנה התקבלה ונשלחה לעיבוד. אם הוגדרו מייל וקבלות ב־Ching, תקבלו אישור וחשבונית לכתובת המייל שהזנתם.</p>
-    <div id="session" class="session" hidden></div>
+    <p>תודה, ההזמנה התקבלה ונשלחה לעיבוד. תקבלו אישור וחשבונית לכתובת המייל שהזנתם.</p>
     <a href="index.html">חזרה לחנות</a>
   </main>
   <script>
-    const sessionId = new URLSearchParams(location.search).get('cs');
-    if (sessionId) {
-      const box = document.getElementById('session');
-      box.hidden = false;
-      box.textContent = `Checkout session: ${sessionId}`;
-    }
     localStorage.removeItem('waterGunCheckout');
   </script>
 </body>

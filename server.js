@@ -135,7 +135,7 @@ async function handleCheckout(req, res) {
     const session = await ching('/checkout_sessions', {
       customer: chingCustomer.id,
       line_items: lineItems,
-      success_url: `${origin}/checkout-success.html?cs={CHECKOUT_SESSION_ID}`,
+      success_url: `${origin}/checkout-success.html`,
       cancel_url: `${origin}/checkout.html`,
       create_document: true
     });
