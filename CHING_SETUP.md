@@ -28,7 +28,7 @@ Required for order confirmation emails:
 
 Required for Google Sheets order management:
 
-- `GOOGLE_SHEET_ID`: `1TdOVlb2U6vJcHlGw3KbGHuQcpSENFSQ9uOyF9sDHpvE`
+- `GOOGLE_SHEET_ID`: Google Sheet ID from the sheet URL. Store it only in Railway variables.
 - `GOOGLE_SHEET_NAME`: `Orders`
 - `GOOGLE_SERVICE_ACCOUNT_EMAIL`: service account email with Editor access to the sheet.
 - `GOOGLE_PRIVATE_KEY`: service account private key. In Railway, keep escaped newlines as `\n`.
