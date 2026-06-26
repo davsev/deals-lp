@@ -26,6 +26,19 @@ Required for order confirmation emails:
 - `ORDER_EMAIL_FROM`: verified sender, for example `Al Deals <support@al-deals.com>`.
 - `ORDER_NOTIFY_EMAIL`: merchant notification inbox, for example `support@al-deals.com`.
 
+Required for Google Sheets order management:
+
+- `GOOGLE_SHEET_ID`: `1TdOVlb2U6vJcHlGw3KbGHuQcpSENFSQ9uOyF9sDHpvE`
+- `GOOGLE_SHEET_NAME`: `Orders`
+- `GOOGLE_SERVICE_ACCOUNT_EMAIL`: service account email with Editor access to the sheet.
+- `GOOGLE_PRIVATE_KEY`: service account private key. In Railway, keep escaped newlines as `\n`.
+
+Create a sheet tab named `Orders` with this header row:
+
+```text
+Order ID | Status | Created At | Paid At | Charge ID | Customer Name | Phone | Email | Address | City | Zip | Products | Item Count | Subtotal | Discount | Total | Notes | Fulfillment Status | Tracking Number | Internal Notes
+```
+
 Webhook setup:
 
 Register this HTTPS endpoint in Ching Developers / Webhooks:
@@ -53,4 +66,5 @@ Important:
 - Cart amounts are sent as agorot (`amount_agorot`), not shekels.
 - Fulfillment emails are sent from `/api/ching/webhook` after `charge.succeeded`.
 - Ching receipts/invoices are still handled by Ching because `create_document: true` is sent on checkout session creation.
-- Current order snapshots are kept in server memory between checkout creation and webhook delivery. For higher reliability, move this to a database before scaling traffic.
+- Orders are appended to Google Sheets at checkout creation with status `pending`, then updated to `paid` after the Ching `charge.succeeded` webhook.
+- Current order snapshots are also kept in server memory between checkout creation and webhook delivery so emails can include the full cart details.

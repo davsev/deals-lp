@@ -12,9 +12,14 @@ const webhookSecret = process.env.CHING_WEBHOOK_SECRET;
 const resendApiKey = process.env.RESEND_API_KEY;
 const mailFrom = process.env.ORDER_EMAIL_FROM || 'Al Deals <support@al-deals.com>';
 const merchantEmail = process.env.ORDER_NOTIFY_EMAIL || 'support@al-deals.com';
+const googleSheetId = process.env.GOOGLE_SHEET_ID || '1TdOVlb2U6vJcHlGw3KbGHuQcpSENFSQ9uOyF9sDHpvE';
+const googleSheetName = process.env.GOOGLE_SHEET_NAME || 'Orders';
+const googleClientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+const googlePrivateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 const apiBase = 'https://api.ching.co.il/ching/v1';
 const pendingOrders = new Map();
 const processedEvents = new Set();
+let googleAccessToken = null;
 
 const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -95,6 +100,133 @@ function escapeHtml(value) {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
+}
+
+function base64Url(input) {
+  return Buffer.from(input)
+    .toString('base64')
+    .replaceAll('+', '-')
+    .replaceAll('/', '_')
+    .replaceAll('=', '');
+}
+
+async function getGoogleAccessToken() {
+  if (!googleClientEmail || !googlePrivateKey || !googleSheetId) {
+    return null;
+  }
+  if (googleAccessToken && googleAccessToken.expiresAt > Date.now() + 60_000) {
+    return googleAccessToken.token;
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  const header = { alg: 'RS256', typ: 'JWT' };
+  const claim = {
+    iss: googleClientEmail,
+    scope: 'https://www.googleapis.com/auth/spreadsheets',
+    aud: 'https://oauth2.googleapis.com/token',
+    exp: now + 3600,
+    iat: now
+  };
+  const unsigned = `${base64Url(JSON.stringify(header))}.${base64Url(JSON.stringify(claim))}`;
+  const signature = crypto.createSign('RSA-SHA256').update(unsigned).sign(googlePrivateKey, 'base64');
+  const assertion = `${unsigned}.${signature.replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '')}`;
+
+  const response = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+      assertion
+    })
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(`Google auth failed: ${payload.error_description || payload.error || response.status}`);
+  }
+  googleAccessToken = {
+    token: payload.access_token,
+    expiresAt: Date.now() + (payload.expires_in || 3600) * 1000
+  };
+  return googleAccessToken.token;
+}
+
+function orderProductsText(cart) {
+  return cart.items.map(item => `${item.name} ${item.variant} x${item.qty}`).join(' | ');
+}
+
+function orderRow(order) {
+  return [
+    order.id,
+    order.status,
+    order.createdAt,
+    order.paidAt || '',
+    order.chargeId || '',
+    `${order.customer.firstName} ${order.customer.lastName}`.trim(),
+    order.customer.phone,
+    order.customer.email,
+    order.customer.address,
+    order.customer.city,
+    order.customer.zip || '',
+    orderProductsText(order.cart),
+    order.cart.count || '',
+    order.cart.subtotal || '',
+    order.cart.discount || '',
+    order.cart.total || '',
+    order.customer.notes || '',
+    'חדש',
+    '',
+    ''
+  ];
+}
+
+async function googleSheetsRequest(pathname, options = {}) {
+  const token = await getGoogleAccessToken();
+  if (!token) {
+    console.log('Google Sheets variables are not fully set. Skipping order sheet sync.');
+    return null;
+  }
+  const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${googleSheetId}${pathname}`, {
+    ...options,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(`Google Sheets API failed: ${payload.error?.message || response.status}`);
+  }
+  return payload;
+}
+
+async function appendOrderToSheet(order) {
+  const range = `${encodeURIComponent(googleSheetName)}!A:T`;
+  await googleSheetsRequest(`/values/${range}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`, {
+    method: 'POST',
+    body: JSON.stringify({ values: [orderRow(order)] })
+  });
+}
+
+async function updateOrderInSheet(order) {
+  const token = await getGoogleAccessToken();
+  if (!token) {
+    console.log('Google Sheets variables are not fully set. Skipping paid status update.');
+    return;
+  }
+  const readRange = `${encodeURIComponent(googleSheetName)}!A:A`;
+  const data = await googleSheetsRequest(`/values/${readRange}`, { method: 'GET' });
+  const rows = data?.values || [];
+  const rowIndex = rows.findIndex(row => row[0] === order.id);
+  if (rowIndex === -1) {
+    await appendOrderToSheet(order);
+    return;
+  }
+  const range = `${encodeURIComponent(googleSheetName)}!A${rowIndex + 1}:T${rowIndex + 1}`;
+  await googleSheetsRequest(`/values/${range}?valueInputOption=USER_ENTERED`, {
+    method: 'PUT',
+    body: JSON.stringify({ values: [orderRow(order)] })
+  });
 }
 
 function validateCart(cart) {
@@ -270,6 +402,10 @@ async function handleCheckout(req, res) {
       createdAt: new Date().toISOString(),
       status: 'pending'
     });
+    const order = pendingOrders.get(session.id);
+    appendOrderToSheet(order).catch(error => {
+      console.error('Failed to append pending order to Google Sheets:', error);
+    });
 
     sendJson(res, 200, { url: session.url, id: session.id });
   } catch (error) {
@@ -298,6 +434,7 @@ async function handleChingWebhook(req, res) {
         order.status = 'paid';
         order.paidAt = new Date().toISOString();
         order.chargeId = event.data?.id;
+        await updateOrderInSheet(order);
         await sendOrderEmails(order, event);
       } else {
         console.log(`Paid checkout session not found in memory: ${sessionId || 'missing'}`);
