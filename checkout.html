@@ -98,10 +98,9 @@
           <div class="field"><label for="lastName">שם משפחה</label><input id="lastName" autocomplete="family-name" required></div>
           <div class="field"><label for="phone">טלפון</label><input id="phone" inputmode="tel" autocomplete="tel" required></div>
           <div class="field"><label for="email">אימייל</label><input id="email" type="email" autocomplete="email" required></div>
-          <div class="field full"><label for="address">כתובת מלאה</label><input id="address" autocomplete="street-address" placeholder="רחוב, מספר בית, עיר" required></div>
+          <div class="field full"><label for="address">כתובת מלאה</label><input id="address" autocomplete="street-address" placeholder="רחוב, מספר בית, דירה, עיר" required></div>
           <div class="field"><label for="city">עיר</label><input id="city" autocomplete="address-level2" required></div>
           <div class="field"><label for="zip">מיקוד</label><input id="zip" inputmode="numeric" autocomplete="postal-code"></div>
-          <div class="field full"><label for="notes">הערות לשליח</label><textarea id="notes" placeholder="קומה, דירה, שעות נוחות למשלוח"></textarea></div>
         </div>
 
         <div class="payment-box">
@@ -117,15 +116,15 @@
         <h2>סיכום ההזמנה</h2>
         <div id="items" class="items"></div>
         <div class="line muted"><span>סה״כ מוצרים</span><span id="count">0</span></div>
-        <div class="line muted"><span>משלוח</span><span class="free">חינם</span></div>
+        <div class="line muted"><span>משלוח</span><span class="free">כלול במחיר</span></div>
         <div class="line total"><span>לתשלום</span><span id="total">₪0</span></div>
         <button id="submitPayment" class="submit" type="submit" form="checkoutForm">מעבר לתשלום מאובטח</button>
-        <p class="note">המחיר כולל משלוח. אין תוספת בקופה. <a href="terms.html">תקנון, ביטולים והחזרות</a></p>
+        <p class="note">המחיר כולל משלוח. זמן אספקה משוער: 14-30 ימי עסקים, בכפוף לעומסי שילוח ומצב ביטחוני. <a href="terms.html">תקנון, ביטולים והחזרות</a></p>
       </aside>
     </section>
 
     <section class="trust-row">
-      <div class="trust"><b>▱</b>משלוח חינם עד הבית</div>
+      <div class="trust"><b>▱</b>משלוח כלול במחיר</div>
       <div class="trust"><b>◇</b>תשלום מאובטח SSL</div>
       <div class="trust"><b>♧</b>שירות לקוחות זמין</div>
     </section>
@@ -181,7 +180,7 @@
           address: document.getElementById('address').value.trim(),
           city: document.getElementById('city').value.trim(),
           zip: document.getElementById('zip').value.trim(),
-          notes: document.getElementById('notes').value.trim()
+          notes: ''
         };
         const response = await fetch('/api/ching/checkout', {
           method: 'POST',
