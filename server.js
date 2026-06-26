@@ -448,6 +448,35 @@ async function handleChingWebhook(req, res) {
   }
 }
 
+async function handleSheetsHealth(req, res) {
+  const configured = {
+    GOOGLE_SHEET_ID: Boolean(googleSheetId),
+    GOOGLE_SHEET_NAME: Boolean(googleSheetName),
+    GOOGLE_SERVICE_ACCOUNT_EMAIL: Boolean(googleClientEmail),
+    GOOGLE_PRIVATE_KEY: Boolean(googlePrivateKey)
+  };
+  const result = { configured };
+
+  try {
+    const token = await getGoogleAccessToken();
+    result.auth = Boolean(token);
+    if (token) {
+      const range = `${encodeURIComponent(googleSheetName)}!A1:T1`;
+      const data = await googleSheetsRequest(`/values/${range}`, { method: 'GET' });
+      result.sheet = {
+        ok: true,
+        headerColumns: data?.values?.[0]?.length || 0
+      };
+    }
+    sendJson(res, 200, result);
+  } catch (error) {
+    sendJson(res, 500, {
+      ...result,
+      error: error.message || 'Google Sheets health check failed'
+    });
+  }
+}
+
 function serveStatic(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const requested = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname);
@@ -475,6 +504,10 @@ const server = http.createServer((req, res) => {
   }
   if (req.method === 'POST' && req.url === '/api/ching/webhook') {
     handleChingWebhook(req, res);
+    return;
+  }
+  if (req.method === 'GET' && req.url === '/api/sheets/health') {
+    handleSheetsHealth(req, res);
     return;
   }
   if (req.method !== 'GET' && req.method !== 'HEAD') {
