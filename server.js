@@ -179,6 +179,11 @@ function orderRow(order) {
   ];
 }
 
+function sheetRange(columns) {
+  const escapedName = googleSheetName.replaceAll("'", "''");
+  return `${encodeURIComponent(`'${escapedName}'`)}!${columns}`;
+}
+
 async function googleSheetsRequest(pathname, options = {}) {
   const token = await getGoogleAccessToken();
   if (!token) {
@@ -201,7 +206,7 @@ async function googleSheetsRequest(pathname, options = {}) {
 }
 
 async function appendOrderToSheet(order) {
-  const range = `${encodeURIComponent(googleSheetName)}!A:T`;
+  const range = sheetRange('A:T');
   await googleSheetsRequest(`/values/${range}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`, {
     method: 'POST',
     body: JSON.stringify({ values: [orderRow(order)] })
@@ -214,7 +219,7 @@ async function updateOrderInSheet(order) {
     console.log('Google Sheets variables are not fully set. Skipping paid status update.');
     return;
   }
-  const readRange = `${encodeURIComponent(googleSheetName)}!A:A`;
+  const readRange = sheetRange('A:A');
   const data = await googleSheetsRequest(`/values/${readRange}`, { method: 'GET' });
   const rows = data?.values || [];
   const rowIndex = rows.findIndex(row => row[0] === order.id);
@@ -222,7 +227,7 @@ async function updateOrderInSheet(order) {
     await appendOrderToSheet(order);
     return;
   }
-  const range = `${encodeURIComponent(googleSheetName)}!A${rowIndex + 1}:T${rowIndex + 1}`;
+  const range = sheetRange(`A${rowIndex + 1}:T${rowIndex + 1}`);
   await googleSheetsRequest(`/values/${range}?valueInputOption=USER_ENTERED`, {
     method: 'PUT',
     body: JSON.stringify({ values: [orderRow(order)] })
@@ -461,7 +466,7 @@ async function handleSheetsHealth(req, res) {
     const token = await getGoogleAccessToken();
     result.auth = Boolean(token);
     if (token) {
-      const range = `${encodeURIComponent(googleSheetName)}!A1:T1`;
+      const range = sheetRange('A1:T1');
       const data = await googleSheetsRequest(`/values/${range}`, { method: 'GET' });
       result.sheet = {
         ok: true,
