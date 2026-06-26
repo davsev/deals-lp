@@ -51,6 +51,9 @@
     .submit:disabled{opacity:.68;cursor:not-allowed;filter:grayscale(.1)}
     .submit:hover{filter:brightness(.97)}
     .note{margin:14px 0 0;text-align:center;color:#48617f;font-size:13px;font-weight:700}
+    .terms-confirm{margin-top:16px;border:1px solid #dbe7f3;background:#f8fbff;border-radius:16px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;color:#23395a;font-size:14px;font-weight:800;line-height:1.45}
+    .terms-confirm input{width:20px;height:20px;min-height:20px;margin:1px 0 0;accent-color:#0868e8;flex:none}
+    .terms-confirm a{color:#0868e8;text-decoration:none}
     .trust-row{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
     .trust{background:#fff;border:1px solid #dbe7f3;border-radius:18px;padding:14px;text-align:center;font-weight:800;color:#0a2757}
     .trust b{display:block;color:#0868e8;font-size:24px;margin-bottom:4px}
@@ -118,6 +121,10 @@
         <div class="line muted"><span>סה״כ מוצרים</span><span id="count">0</span></div>
         <div class="line muted"><span>משלוח</span><span class="free">כלול במחיר</span></div>
         <div class="line total"><span>לתשלום</span><span id="total">₪0</span></div>
+        <label class="terms-confirm">
+          <input id="termsAccepted" type="checkbox" form="checkoutForm" required>
+          <span>אני מאשר/ת שקראתי את <a href="terms.html" target="_blank" rel="noopener">התקנון</a> ואת זמן האספקה המשוער: 14-30 ימי עסקים, עם אפשרות לעיכובים עקב עומסי שילוח, מכס או מצב ביטחוני.</span>
+        </label>
         <button id="submitPayment" class="submit" type="submit" form="checkoutForm">מעבר לתשלום מאובטח</button>
         <p class="note">המחיר כולל משלוח. זמן אספקה משוער: 14-30 ימי עסקים, בכפוף לעומסי שילוח ומצב ביטחוני. <a href="terms.html">תקנון, ביטולים והחזרות</a></p>
       </aside>

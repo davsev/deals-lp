@@ -319,6 +319,7 @@ function buildOrderEmail(order, event) {
       <h1 style="margin:0 0 12px">תודה על ההזמנה!</h1>
       <p>קיבלנו את ההזמנה שלך והיא עברה לטיפול מול ספק השילוח.</p>
       <p>זמן האספקה המשוער הוא 14-30 ימי עסקים, בכפוף לעומסי שילוח, חגים, עיכובי מכס, מלחמה או מצב ביטחוני.</p>
+      <p>אם מספר מעקב יהיה זמין עבור ההזמנה, נשלח אותו אליך במייל.</p>
       <h2 style="margin-top:24px">פרטי ההזמנה</h2>
       <table style="width:100%;border-collapse:collapse;border:1px solid #e6edf5">
         <thead>
