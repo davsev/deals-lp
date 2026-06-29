@@ -154,6 +154,21 @@ function orderProductsText(cart) {
   return cart.items.map(item => `${item.name} ${item.variant} x${item.qty}`).join(' | ');
 }
 
+const productCatalog = {
+  gunBlue: { name: 'רובה מים', variant: 'כחול שקוף', price: 89.9, image: 'assets/gun-blue-new.png' },
+  gunBlack: { name: 'רובה מים', variant: 'שחור', price: 89.9, image: 'assets/gun-black-new.png' },
+  cannonBlue: { name: 'תותח מים', variant: 'כחול שקוף', price: 119.9, image: 'assets/cannon-blue.png' },
+  cannonBlack: { name: 'תותח מים', variant: 'שחור שקוף', price: 119.9, image: 'assets/cannon-black.png' },
+  cannonRed: { name: 'תותח מים', variant: 'אדום שקוף', price: 119.9, image: 'assets/cannon-red.png' }
+};
+
+function discountRateFor(count) {
+  if (count >= 4) return 0.10;
+  if (count === 3) return 0.08;
+  if (count === 2) return 0.05;
+  return 0;
+}
+
 function orderRow(order) {
   return [
     order.id,
@@ -234,38 +249,64 @@ async function updateOrderInSheet(order) {
   });
 }
 
-function validateCart(cart) {
+function normalizeCart(cart) {
   if (!cart || !Array.isArray(cart.items) || !cart.items.length) {
     throw new Error('הסל ריק.');
   }
-  const items = cart.items.map(item => {
+  const normalizedItems = cart.items.map(item => {
+    const product = productCatalog[item.id || item.key];
     const quantity = Number(item.qty);
-    const amount = toAgorot(item.price);
-    if (!item.name || !item.variant || !Number.isInteger(quantity) || quantity < 1 || quantity > 1000 || amount < 0) {
+    if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > 1000) {
       throw new Error('נתוני הסל אינם תקינים.');
     }
     return {
+      id: item.id || item.key,
+      key: item.id || item.key,
+      name: product.name,
+      variant: product.variant,
+      qty: quantity,
+      price: product.price,
+      image: product.image
+    };
+  });
+  const count = normalizedItems.reduce((sum, item) => sum + item.qty, 0);
+  const subtotal = normalizedItems.reduce((sum, item) => sum + item.qty * item.price, 0);
+  const discountRate = discountRateFor(count);
+  const discount = Number((subtotal * discountRate).toFixed(2));
+  const total = Number((subtotal - discount).toFixed(2));
+  const lineItems = normalizedItems.map(item => {
+    return {
       name: `${item.name} - ${item.variant}`.slice(0, 255),
-      description: `כמות: ${quantity}`.slice(0, 500),
-      amount_agorot: amount,
-      quantity
+      description: `כמות: ${item.qty}`.slice(0, 500),
+      amount_agorot: toAgorot(item.price),
+      quantity: item.qty
     };
   });
 
-  const discount = toAgorot(cart.discount || 0);
   if (discount > 0) {
-    items.push({
-      name: `הנחת כמות ${Math.round(Number(cart.discountRate || 0) * 100)}%`,
-      amount_agorot: -discount,
+    lineItems.push({
+      name: `הנחת כמות ${Math.round(discountRate * 100)}%`,
+      amount_agorot: -toAgorot(discount),
       quantity: 1
     });
   }
 
-  const total = items.reduce((sum, item) => sum + item.amount_agorot * item.quantity, 0);
-  if (total < 0) {
+  const totalAgorot = lineItems.reduce((sum, item) => sum + item.amount_agorot * item.quantity, 0);
+  if (totalAgorot < 0) {
     throw new Error('סכום ההזמנה אינו תקין.');
   }
-  return items;
+  return {
+    lineItems,
+    cart: {
+      items: normalizedItems,
+      count,
+      subtotal,
+      discountRate,
+      discount,
+      total,
+      shipping: 0
+    }
+  };
 }
 
 async function ching(pathname, body) {
@@ -385,7 +426,7 @@ async function handleCheckout(req, res) {
       return sendJson(res, 400, { error: 'נא למלא שם, טלפון, אימייל וכתובת מלאה.' });
     }
 
-    const lineItems = validateCart(cart);
+    const normalized = normalizeCart(cart);
     const chingCustomer = await ching('/customers', {
       name: fullName,
       email: customer.email,
@@ -395,7 +436,7 @@ async function handleCheckout(req, res) {
     const origin = getOrigin(req);
     const session = await ching('/checkout_sessions', {
       customer: chingCustomer.id,
-      line_items: lineItems,
+      line_items: normalized.lineItems,
       success_url: `${origin}/checkout-success.html`,
       cancel_url: `${origin}/checkout.html`,
       create_document: true
@@ -404,7 +445,7 @@ async function handleCheckout(req, res) {
     pendingOrders.set(session.id, {
       id: session.id,
       customer,
-      cart,
+      cart: normalized.cart,
       chingCustomerId: chingCustomer.id,
       createdAt: new Date().toISOString(),
       status: 'pending'
