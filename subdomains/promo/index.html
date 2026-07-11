@@ -3,471 +3,827 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Al Deals - דילים חמים בלי לחפש שעות</title>
-  <meta name="description" content="עמוד נחיתה חדש ל-Al Deals עם דילים נבחרים, משלוח עד הבית והצעות שמתחלפות מהר.">
+  <title>דילים שווים נכנסים ראשונים!</title>
+  <meta name="description" content="מצטרפים לקבוצת וואטסאפ סגורה ומקבלים דילים, הנחות וקופונים לפני כולם.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800;900&family=Frank+Ruhl+Libre:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #15110d;
-      --paper: #fff8ec;
-      --card: #fffdf8;
-      --line: #eadbc0;
-      --muted: #6d6254;
-      --red: #d83b2d;
-      --green: #0f7b63;
-      --blue: #1769aa;
-      --gold: #f0ad2c;
-      --shadow: 0 22px 55px rgba(58, 39, 14, .16);
+      --bg: #020b09;
+      --panel: #06221d;
+      --panel-2: #0a2b25;
+      --line: rgba(151, 255, 159, .19);
+      --line-strong: rgba(166, 255, 176, .34);
+      --text: #ffffff;
+      --soft: #c8d6d1;
+      --muted: #8fa29b;
+      --green: #57df43;
+      --green-2: #8cf35d;
+      --green-3: #2abf43;
+      --yellow: #ffc331;
+      --shadow: 0 28px 90px rgba(0, 0, 0, .6);
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+
+    html,
     body {
       margin: 0;
-      color: var(--ink);
-      background:
-        linear-gradient(90deg, rgba(21,17,13,.035) 1px, transparent 1px) 0 0 / 42px 42px,
-        linear-gradient(0deg, rgba(21,17,13,.035) 1px, transparent 1px) 0 0 / 42px 42px,
-        var(--paper);
-      font-family: Assistant, sans-serif;
+      min-height: 100%;
+      background: #010705;
+      color: var(--text);
+      font-family: Heebo, Arial, sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: start center;
+      padding: 0;
     }
 
     a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
 
-    .wrap { width: min(1120px, calc(100% - 32px)); margin-inline: auto; }
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      border-bottom: 1px solid rgba(234, 219, 192, .8);
-      background: rgba(255, 248, 236, .86);
-      backdrop-filter: blur(14px);
+    .poster {
+      position: relative;
+      isolation: isolate;
+      width: min(100vw, 605px);
+      height: 1280px;
+      overflow: hidden;
+      padding: 27px 26px 22px;
+      border-radius: 46px;
+      background:
+        radial-gradient(circle at 50% 37%, rgba(77, 236, 64, .36), transparent 0 15%, transparent 34%),
+        radial-gradient(circle at 45% 39%, rgba(23, 225, 66, .28), transparent 0 14%, transparent 36%),
+        radial-gradient(circle at 8% 0, rgba(36, 172, 89, .16), transparent 0 29%, transparent 48%),
+        radial-gradient(circle at 92% 10%, rgba(22, 126, 78, .18), transparent 0 25%, transparent 47%),
+        linear-gradient(180deg, #031611 0%, #02100d 52%, #020c0a 100%);
+      box-shadow: var(--shadow);
     }
-    .nav {
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 50% 34%, rgba(100, 255, 79, .44), transparent 0 3px, transparent 4px),
+        radial-gradient(circle at 48% 34%, rgba(86, 238, 63, .42), transparent 0 5px, transparent 6px),
+        repeating-conic-gradient(from 20deg at 50% 36%, rgba(75, 232, 54, .13) 0 8deg, transparent 8deg 22deg);
+      filter: blur(10px);
+      opacity: .72;
+      mask-image: radial-gradient(circle at 50% 35%, #000 0 23%, transparent 44%);
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+
+    .poster::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow:
+        inset 0 0 0 1px rgba(119, 255, 139, .06),
+        inset 0 -42px 95px rgba(27, 255, 99, .045),
+        inset 0 0 90px rgba(0, 0, 0, .68);
+    }
+
+    .spark {
+      position: absolute;
+      z-index: -1;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--green-2);
+      box-shadow: 0 0 16px rgba(114, 255, 84, .7);
+      opacity: .65;
+      transform: rotate(35deg);
+    }
+    .spark.s1 { top: 93px; left: 21px; }
+    .spark.s2 { top: 82px; right: 49px; width: 7px; height: 12px; opacity: .48; }
+    .spark.s3 { top: 236px; left: 37px; width: 9px; height: 38px; filter: blur(.4px); }
+    .spark.s4 { top: 350px; left: 92px; width: 10px; height: 12px; opacity: .8; }
+    .spark.s5 { top: 292px; right: 53px; width: 10px; height: 34px; }
+    .spark.s6 { top: 192px; right: 12px; width: 13px; height: 43px; filter: blur(2px); opacity: .5; }
+
+    .secure-pill {
+      width: max-content;
+      margin: 0 auto 17px;
+      padding: 8px 17px 9px;
+      border-radius: 14px;
+      color: var(--green-2);
+      background: linear-gradient(180deg, rgba(35, 122, 67, .38), rgba(22, 86, 57, .35));
+      box-shadow: 0 0 22px rgba(80, 255, 92, .16), inset 0 1px 0 rgba(255, 255, 255, .08);
+      font-size: 18px;
+      line-height: 1;
+      font-weight: 800;
+      text-shadow: 0 0 14px rgba(108, 255, 71, .22);
+    }
+
+    .secure-pill svg {
+      width: 19px;
+      height: 19px;
+      margin-right: 8px;
+      vertical-align: -4px;
+      fill: currentColor;
+    }
+
+    .hero-title {
+      margin: 0;
+      text-align: center;
+      font-size: 53px;
+      line-height: .97;
       font-weight: 900;
-      font-size: 20px;
-      letter-spacing: .02em;
+      letter-spacing: -.02em;
+      text-shadow: 0 4px 0 rgba(0, 0, 0, .18);
     }
-    .mark {
+
+    .hero-title span {
+      display: block;
+      color: var(--green);
+      font-size: 51px;
+    }
+
+    .subtitle {
+      width: 430px;
+      max-width: 100%;
+      margin: 18px auto 0;
+      color: #f2f6f4;
+      text-align: center;
+      font-size: 21px;
+      line-height: 1.38;
+      font-weight: 500;
+    }
+
+    .subtitle strong { color: var(--green-2); font-weight: 900; }
+
+    .hero-art {
+      position: relative;
+      height: 238px;
+      margin-top: 19px;
+    }
+
+    .whatsapp-block {
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      z-index: 5;
+      width: 206px;
+      height: 206px;
+      display: grid;
+      place-items: center;
+      border-radius: 42px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, .38), transparent 26%),
+        linear-gradient(180deg, #73ee58 0%, #0bb844 51%, #079032 100%);
+      box-shadow:
+        0 26px 42px rgba(0, 0, 0, .5),
+        0 0 52px rgba(75, 241, 61, .47),
+        inset 0 3px 0 rgba(255, 255, 255, .35),
+        inset 0 -8px 26px rgba(0, 84, 29, .42);
+      transform: translateX(-50%);
+    }
+
+    .whatsapp-block svg {
+      width: 137px;
+      height: 137px;
+      filter: drop-shadow(0 6px 6px rgba(0, 0, 0, .35));
+    }
+
+    .shopping-bag,
+    .gift-box,
+    .coupon {
+      position: absolute;
+      filter: drop-shadow(0 20px 20px rgba(0, 0, 0, .44));
+    }
+
+    .shopping-bag {
+      left: 42px;
+      right: auto;
+      bottom: 14px;
+      width: 132px;
+      height: 144px;
+      border-radius: 0 0 11px 11px;
+      background: linear-gradient(145deg, #151d19, #030504 72%);
+      transform: rotate(-5deg) skewY(-3deg);
+    }
+
+    .shopping-bag::before {
+      content: "";
+      position: absolute;
+      top: -38px;
+      right: 24px;
+      width: 80px;
+      height: 60px;
+      border: 5px solid #796447;
+      border-bottom: 0;
+      border-radius: 50% 50% 0 0;
+    }
+
+    .tag {
+      position: absolute;
+      left: 18px;
+      top: 52px;
+      width: 57px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 32px;
+      font-weight: 900;
+      background: linear-gradient(180deg, #90ef5e, #42b83d);
+      clip-path: polygon(17% 0, 100% 0, 100% 78%, 52% 100%, 0 77%, 0 17%);
+      transform: rotate(-8deg);
+    }
+
+    .tag::before {
+      content: "";
+      position: absolute;
+      top: 11px;
+      right: 12px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #17391f;
+    }
+
+    .gift-box {
+      right: 60px;
+      left: auto;
+      bottom: 25px;
+      width: 119px;
+      height: 105px;
+      border-radius: 17px 17px 10px 10px;
+      background:
+        linear-gradient(90deg, transparent 0 42%, #65de42 42% 57%, transparent 57% 100%),
+        linear-gradient(180deg, #1e2b20, #111711);
+      transform: rotate(5deg);
+    }
+
+    .gift-box::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 16px;
+      width: 145px;
+      height: 25px;
+      border-radius: 10px;
+      background:
+        linear-gradient(90deg, transparent 0 42%, #78ed4f 42% 57%, transparent 57% 100%),
+        #253026;
+    }
+
+    .gift-box::after {
+      content: "";
+      position: absolute;
+      top: -36px;
+      left: 40px;
+      width: 50px;
+      height: 48px;
+      border-radius: 50% 50% 0 50%;
+      border: 13px solid #64dd42;
+      border-bottom-color: transparent;
+      transform: rotate(-35deg);
+    }
+
+    .coupon {
+      right: 37px;
+      left: auto;
+      bottom: 2px;
+      width: 104px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      color: #6b4a13;
+      font-size: 39px;
+      font-weight: 900;
+      border-radius: 8px;
+      background: linear-gradient(160deg, #ffe06b, #c99621);
+      transform: rotate(-9deg);
+      box-shadow: inset 0 0 0 2px rgba(70, 42, 5, .25);
+    }
+
+    .coupon::before,
+    .coupon::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 17px;
+      height: 30px;
+      border-radius: 50%;
+      background: #08211a;
+      transform: translateY(-50%);
+    }
+
+    .coupon::before { right: -9px; }
+    .coupon::after { left: -9px; }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      overflow: hidden;
+      margin-top: 23px;
+      border: 1px solid var(--line-strong);
+      border-radius: 22px;
+      background: rgba(13, 44, 39, .82);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 12px 36px rgba(0, 0, 0, .18);
+    }
+
+    .feature {
+      min-height: 160px;
+      padding: 15px 10px 9px;
+      text-align: center;
+      border-left: 1px solid rgba(159, 255, 179, .09);
+    }
+
+    .feature:first-child { border-left: 0; }
+
+    .feature svg {
+      width: 41px;
+      height: 41px;
+      margin-bottom: 8px;
+      stroke: var(--green);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 10px rgba(89, 239, 64, .25));
+    }
+
+    .feature b {
+      display: block;
+      margin-bottom: 5px;
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+    .feature span {
+      display: block;
+      color: var(--soft);
+      font-size: 13px;
+      line-height: 1.34;
+      font-weight: 500;
+    }
+
+    .proof {
+      margin-top: 15px;
+      padding: 13px 20px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 22px;
+      background: rgba(11, 43, 37, .83);
+      text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.055), 0 12px 36px rgba(0, 0, 0, .16);
+    }
+
+    .proof h2 {
+      margin: 0 0 12px;
+      font-size: 24px;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .avatars {
+      direction: ltr;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .avatar {
       width: 42px;
       height: 42px;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: var(--red);
-      border: 3px solid var(--ink);
-      box-shadow: 5px 5px 0 var(--ink);
-      transform: rotate(-4deg);
-    }
-    .navlinks {
-      display: flex;
-      align-items: center;
-      gap: 26px;
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 14px;
-    }
-    .cta {
-      min-height: 48px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 3px solid var(--ink);
-      background: var(--gold);
-      color: var(--ink);
-      padding: 0 22px;
-      font-weight: 900;
-      box-shadow: 6px 6px 0 var(--ink);
-      transition: transform .16s ease, box-shadow .16s ease;
-    }
-    .cta:hover { transform: translate(3px, 3px); box-shadow: 3px 3px 0 var(--ink); }
-    .cta.dark { background: var(--ink); color: #fff; box-shadow: 6px 6px 0 var(--red); }
-
-    .hero {
-      min-height: calc(100svh - 68px);
-      display: grid;
-      align-items: center;
-      padding: 54px 0 72px;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 48px;
-      align-items: center;
-    }
-    .kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      width: fit-content;
-      border: 2px solid var(--ink);
-      background: #fff;
-      padding: 8px 13px;
-      font-weight: 900;
-      box-shadow: 4px 4px 0 var(--ink);
-    }
-    h1 {
-      margin: 24px 0 0;
-      font-family: "Frank Ruhl Libre", serif;
-      font-size: clamp(52px, 8vw, 108px);
-      line-height: .9;
-      letter-spacing: 0;
-    }
-    .hero-copy {
-      max-width: 660px;
-      margin: 24px 0 0;
-      color: var(--muted);
-      font-size: clamp(20px, 2.4vw, 27px);
-      line-height: 1.45;
-      font-weight: 700;
-    }
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-      margin-top: 34px;
-    }
-    .fineprint {
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 14px;
-    }
-    .deal-board {
-      position: relative;
-      min-height: 560px;
-    }
-    .deal-card {
-      position: absolute;
-      border: 3px solid var(--ink);
-      background: var(--card);
-      box-shadow: var(--shadow), 10px 10px 0 var(--ink);
-      padding: 22px;
-      animation: lift .7s ease both;
-    }
-    .deal-card.main {
-      inset: 52px 36px auto auto;
-      width: min(410px, 100%);
-      transform: rotate(2deg);
-    }
-    .deal-card.side {
-      left: 0;
-      bottom: 54px;
-      width: 250px;
-      transform: rotate(-5deg);
-      background: #fdf1d6;
-      animation-delay: .1s;
-    }
-    .deal-card.badge {
-      left: 52px;
-      top: 8px;
-      width: 190px;
-      padding: 18px;
-      background: var(--green);
-      color: #fff;
-      transform: rotate(7deg);
-      animation-delay: .18s;
-    }
-    @keyframes lift {
-      from { opacity: 0; translate: 0 18px; }
-      to { opacity: 1; translate: 0 0; }
-    }
-    .product-art {
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
+      margin-left: -7px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, .75);
       background:
-        radial-gradient(circle at 35% 30%, rgba(240,173,44,.55), transparent 0 22%, transparent 23%),
-        radial-gradient(circle at 66% 68%, rgba(216,59,45,.45), transparent 0 21%, transparent 22%),
-        #e8f5ef;
-      border: 2px solid var(--ink);
-      overflow: hidden;
+        radial-gradient(circle at 50% 38%, #f0c1a8 0 19%, transparent 20%),
+        radial-gradient(circle at 50% 77%, #334f72 0 28%, transparent 29%),
+        linear-gradient(135deg, #9bc1d5, #3d4d59);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, .3);
     }
-    .product-art span {
+
+    .avatar:nth-child(2) { background: radial-gradient(circle at 50% 38%, #edb89d 0 19%, transparent 20%), radial-gradient(circle at 50% 77%, #0d2333 0 28%, transparent 29%), linear-gradient(135deg, #d1e6ed, #6c8595); }
+    .avatar:nth-child(3) { background: radial-gradient(circle at 50% 38%, #e5b598 0 19%, transparent 20%), radial-gradient(circle at 50% 77%, #eae4d0 0 28%, transparent 29%), linear-gradient(135deg, #b27265, #343238); }
+    .avatar:nth-child(4) { background: radial-gradient(circle at 50% 38%, #cf916d 0 19%, transparent 20%), radial-gradient(circle at 50% 77%, #162b3a 0 28%, transparent 29%), linear-gradient(135deg, #e7edf2, #42616f); }
+    .avatar:nth-child(5) { background: radial-gradient(circle at 50% 38%, #e6b08c 0 19%, transparent 20%), radial-gradient(circle at 50% 77%, #31463f 0 28%, transparent 29%), linear-gradient(135deg, #d7be95, #495b5d); }
+    .avatar:nth-child(6) { background: radial-gradient(circle at 50% 38%, #d4a17d 0 19%, transparent 20%), radial-gradient(circle at 50% 77%, #143923 0 28%, transparent 29%), linear-gradient(135deg, #45684f, #d9c68d); }
+    .avatar:nth-child(7) { background: radial-gradient(circle at 50% 38%, #c88766 0 19%, transparent 20%), radial-gradient(circle at 50% 77%, #1f4066 0 28%, transparent 29%), linear-gradient(135deg, #c8d5d9, #64798d); }
+
+    .member-badge {
+      width: 54px;
+      height: 54px;
       display: grid;
       place-items: center;
-      width: 70%;
-      aspect-ratio: 1;
+      margin-right: 13px;
       border-radius: 50%;
-      background: #fff;
-      border: 3px solid var(--ink);
-      font-size: 78px;
+      color: #09271b;
+      background: linear-gradient(180deg, #93f263, #5dd33d);
+      box-shadow: 0 0 22px rgba(82, 231, 56, .33);
+      font-size: 12px;
+      line-height: 1.06;
       font-weight: 900;
-      color: var(--red);
     }
-    .deal-title {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: end;
-      margin-top: 18px;
-      font-weight: 900;
-      font-size: 22px;
+
+    .member-badge strong {
+      display: block;
+      font-size: 16px;
     }
-    .price { color: var(--red); font-size: 34px; line-height: .9; }
-    .stamp {
-      display: inline-grid;
-      place-items: center;
-      width: 112px;
-      height: 112px;
-      border-radius: 50%;
-      border: 4px solid currentColor;
+
+    .quote {
+      margin: 0;
+      color: #e5efea;
+      font-size: 17px;
+      line-height: 1.3;
+      font-weight: 500;
+    }
+
+    .quote-mark {
+      color: var(--green);
+      font-size: 29px;
       font-weight: 900;
+      vertical-align: -12px;
+    }
+
+    .stars {
+      margin-top: 6px;
+      color: var(--yellow);
+      font-size: 20px;
+      letter-spacing: 4px;
+      text-shadow: 0 0 12px rgba(255, 194, 40, .23);
+    }
+
+    .how {
+      margin-top: 19px;
       text-align: center;
-      line-height: 1.05;
     }
 
-    .strip {
-      border-block: 3px solid var(--ink);
-      background: var(--red);
-      color: #fff;
-      overflow: hidden;
-    }
-    .strip-track {
-      display: flex;
-      gap: 38px;
-      width: max-content;
-      padding: 14px 0;
+    .how h2 {
+      margin: 0 0 12px;
+      font-size: 27px;
+      line-height: 1.1;
       font-weight: 900;
-      animation: marquee 22s linear infinite;
     }
-    @keyframes marquee { to { transform: translateX(50%); } }
 
-    section { padding: 86px 0; }
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 32px;
-      align-items: end;
-      margin-bottom: 34px;
-    }
-    h2 {
-      margin: 0;
-      max-width: 620px;
-      font-family: "Frank Ruhl Libre", serif;
-      font-size: clamp(36px, 5vw, 64px);
-      line-height: .96;
-      letter-spacing: 0;
-    }
-    .section-head p {
-      margin: 0;
-      max-width: 390px;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.55;
-      font-weight: 700;
-    }
-    .grid {
+    .steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+      align-items: start;
+      gap: 12px;
+      direction: rtl;
     }
-    .tile {
-      min-height: 250px;
-      border: 3px solid var(--ink);
-      background: var(--card);
-      padding: 24px;
-      box-shadow: 7px 7px 0 var(--ink);
+
+    .step {
+      position: relative;
+      direction: rtl;
+      min-height: 132px;
     }
-    .tile:nth-child(2) { background: #e8f5ef; }
-    .tile:nth-child(3) { background: #fdf1d6; }
-    .tile b {
-      display: block;
-      font-size: 24px;
-      margin-bottom: 14px;
+
+    .step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 44px;
+      left: calc(100% - 8px);
+      width: 46px;
+      border-top: 1px dotted rgba(231, 244, 237, .74);
     }
-    .tile p {
-      margin: 0;
-      color: var(--muted);
-      font-weight: 700;
-      line-height: 1.65;
+
+    .step:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      top: 39px;
+      left: calc(100% + 32px);
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-right: 8px solid rgba(231, 244, 237, .82);
     }
-    .num {
+
+    .circle {
+      position: relative;
+      width: 76px;
+      height: 76px;
       display: grid;
       place-items: center;
-      width: 48px;
-      height: 48px;
-      margin-bottom: 44px;
-      border: 2px solid var(--ink);
-      background: var(--gold);
+      margin: 0 auto 8px;
+      border: 2px solid rgba(80, 221, 57, .54);
+      border-radius: 50%;
+      color: var(--green);
+      box-shadow: 0 0 18px rgba(78, 222, 57, .1);
+    }
+
+    .circle svg {
+      width: 37px;
+      height: 37px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .num {
+      position: absolute;
+      top: -12px;
+      right: -6px;
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(180deg, #8af354, #4cce33);
+      font-size: 18px;
+      line-height: 1;
+      font-weight: 900;
+      box-shadow: 0 4px 10px rgba(0,0,0,.27);
+    }
+
+    .step b {
+      display: block;
+      color: var(--green);
+      font-size: 16px;
+      line-height: 1.2;
       font-weight: 900;
     }
-    .signup {
-      border: 3px solid var(--ink);
-      background: var(--green);
-      color: #fff;
-      box-shadow: 10px 10px 0 var(--ink);
-      padding: clamp(28px, 6vw, 62px);
-      display: grid;
-      grid-template-columns: 1fr 410px;
-      gap: 34px;
+
+    .step span {
+      display: block;
+      margin-top: 4px;
+      color: #e7efec;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 500;
+    }
+
+    .cta {
+      width: 496px;
+      max-width: calc(100% - 58px);
+      min-height: 82px;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin: 32px auto 8px;
+      border-radius: 19px;
+      color: #092c1a;
+      background: linear-gradient(180deg, #8df25b 0%, #5fe448 47%, #35c134 100%);
+      box-shadow:
+        0 16px 35px rgba(0, 0, 0, .33),
+        0 0 28px rgba(84, 237, 61, .2),
+        inset 0 2px 0 rgba(255, 255, 255, .34);
+      font-size: 25px;
+      line-height: 1.05;
+      font-weight: 900;
+      transition: transform .16s ease, filter .16s ease;
     }
-    .signup h2 { color: #fff; }
-    .signup p {
-      color: rgba(255,255,255,.82);
-      font-size: 19px;
-      line-height: 1.55;
+
+    .cta:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.04);
+    }
+
+    .cta svg {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 auto;
+      filter: drop-shadow(0 1px 0 rgba(255,255,255,.35));
+    }
+
+    .cta small {
+      display: block;
+      margin-top: 6px;
+      font-size: 15px;
+      line-height: 1;
       font-weight: 700;
+      opacity: .86;
     }
-    form {
-      display: grid;
-      gap: 12px;
-    }
-    input {
-      width: 100%;
-      min-height: 54px;
-      border: 3px solid var(--ink);
-      background: #fff;
-      color: var(--ink);
-      padding: 0 16px;
-      font: 800 16px Assistant, sans-serif;
-    }
-    input:focus { outline: 4px solid rgba(240,173,44,.45); }
-    .footer {
-      padding: 34px 0;
-      color: var(--muted);
-      font-weight: 800;
+
+    .privacy {
+      color: rgba(203, 216, 209, .52);
       text-align: center;
+      font-size: 14px;
+      font-weight: 500;
     }
 
-    @media (max-width: 880px) {
-      .navlinks { display: none; }
-      .hero-grid, .signup { grid-template-columns: 1fr; }
-      .deal-board { min-height: 500px; }
-      .deal-card.main { right: 0; }
-      .section-head { display: block; }
-      .section-head p { margin-top: 16px; }
-      .grid { grid-template-columns: 1fr; }
+    .privacy svg {
+      width: 16px;
+      height: 16px;
+      margin-left: 5px;
+      fill: currentColor;
+      vertical-align: -3px;
     }
 
-    @media (max-width: 560px) {
-      .wrap { width: min(100% - 24px, 1120px); }
-      .hero { padding-top: 34px; }
-      h1 { font-size: 54px; }
-      .hero-copy { font-size: 19px; }
-      .cta { width: 100%; }
-      .deal-board { min-height: 430px; }
-      .deal-card { box-shadow: 6px 6px 0 var(--ink); }
-      .deal-card.main { width: 88%; top: 36px; }
-      .deal-card.side { width: 190px; bottom: 18px; }
-      .deal-card.badge { left: 10px; width: 150px; }
-      .product-art span { font-size: 54px; }
-      section { padding: 64px 0; }
+    @media (max-width: 604px) {
+      .poster {
+        min-height: 100svh;
+        border-radius: 0;
+        padding: 5vw 4.3vw 4vw;
+      }
+
+      .secure-pill {
+        margin-bottom: 3.2vw;
+        padding: 1.6vw 3.1vw 1.8vw;
+        border-radius: 2.3vw;
+        font-size: clamp(14px, 3vw, 18px);
+      }
+
+      .hero-title {
+        font-size: clamp(42px, 9.9vw, 60px);
+      }
+
+      .hero-title span {
+        font-size: clamp(38px, 9.1vw, 55px);
+      }
+
+      .subtitle {
+        margin-top: 3.6vw;
+        font-size: clamp(16px, 3.65vw, 22px);
+      }
+
+      .hero-art {
+        height: 45.3vw;
+        min-height: 245px;
+        margin-top: 4vw;
+      }
+
+      .whatsapp-block {
+        top: 5.5vw;
+        width: 35.4vw;
+        height: 35.4vw;
+        min-width: 184px;
+        min-height: 184px;
+        border-radius: 7vw;
+      }
+
+      .whatsapp-block svg {
+        width: 23.3vw;
+        height: 23.3vw;
+        min-width: 122px;
+        min-height: 122px;
+      }
+
+      .shopping-bag { right: 6.4vw; width: 23.5vw; height: 25.6vw; }
+      .gift-box { left: 8.9vw; width: 21.3vw; height: 19.1vw; }
+      .coupon { left: 5.1vw; width: 18.3vw; height: 12.9vw; font-size: 6.4vw; }
+
+      .features {
+        margin-top: 1.7vw;
+        border-radius: 3.7vw;
+      }
+
+      .feature {
+        min-height: 26.6vw;
+        padding: 3.5vw 1.5vw 2.3vw;
+      }
+
+      .feature svg {
+        width: 7.4vw;
+        height: 7.4vw;
+        margin-bottom: 2vw;
+      }
+
+      .feature b { font-size: clamp(11px, 2.48vw, 15px); }
+      .feature span { font-size: clamp(10px, 2.3vw, 14px); }
+      .proof { margin-top: 2.5vw; padding: 3.6vw 3.3vw 3.8vw; border-radius: 3.7vw; }
+      .proof h2 { font-size: clamp(20px, 4.3vw, 26px); margin-bottom: 2.3vw; }
+      .avatar { width: 8.3vw; height: 8.3vw; min-width: 42px; min-height: 42px; }
+      .member-badge { width: 10.6vw; height: 10.6vw; min-width: 56px; min-height: 56px; font-size: clamp(10px, 2.15vw, 13px); }
+      .member-badge strong { font-size: clamp(14px, 2.8vw, 17px); }
+      .quote { font-size: clamp(15px, 3.15vw, 19px); }
+      .stars { font-size: clamp(19px, 3.8vw, 23px); }
+      .how { margin-top: 3.3vw; }
+      .how h2 { font-size: clamp(22px, 4.65vw, 28px); margin-bottom: 2.5vw; }
+      .steps { gap: 2vw; }
+      .circle { width: 13.6vw; height: 13.6vw; min-width: 70px; min-height: 70px; }
+      .circle svg { width: 6.6vw; height: 6.6vw; min-width: 34px; min-height: 34px; }
+      .step b { font-size: clamp(12px, 2.65vw, 16px); }
+      .step span { font-size: clamp(11px, 2.3vw, 14px); }
+      .cta {
+        max-width: calc(100% - 9.6vw);
+        min-height: 13.9vw;
+        margin-top: 2.5vw;
+        border-radius: 3.15vw;
+        font-size: clamp(19px, 4.15vw, 25px);
+      }
+      .cta svg { width: 7.9vw; height: 7.9vw; min-width: 40px; min-height: 40px; }
+      .cta small { font-size: clamp(12px, 2.5vw, 15px); }
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="wrap nav">
-      <a class="brand" href="#top" aria-label="Al Deals">
-        <span class="mark">AL</span>
-        <span>Al Deals</span>
-      </a>
-      <nav class="navlinks" aria-label="ניווט">
-        <a href="#how">איך זה עובד</a>
-        <a href="#drops">מה מקבלים</a>
-        <a href="#join">הצטרפות</a>
-      </nav>
-      <a class="cta" href="#join">קבלו דילים</a>
+  <main class="poster" aria-label="עמוד נחיתה לקבוצת וואטסאפ של דילים">
+    <span class="spark s1"></span>
+    <span class="spark s2"></span>
+    <span class="spark s3"></span>
+    <span class="spark s4"></span>
+    <span class="spark s5"></span>
+    <span class="spark s6"></span>
+
+    <div class="secure-pill">
+      קבוצת וואטסאפ סגורה
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 9h-1V7a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2Zm-7-2a2 2 0 0 1 4 0v2h-4V7Zm3 9.7V18h-2v-1.3a2 2 0 1 1 2 0Z"/></svg>
     </div>
-  </header>
 
-  <main id="top">
-    <section class="hero">
-      <div class="wrap hero-grid">
-        <div>
-          <span class="kicker">דילים שנבחרים ידנית, לא עוד קטלוג אינסופי</span>
-          <h1>העמוד החדש של Al Deals מוכן לדומיין משנה.</h1>
-          <p class="hero-copy">עמוד נחיתה עצמאי שמיועד לקמפיינים, מוצרי עונה או רשימת המתנה. הוא רץ מאותו Railway service, אבל יכול לקבל כתובת משלו כמו promo.al-deals.com.</p>
-          <div class="hero-actions">
-            <a class="cta dark" href="#join">פתחו קמפיין</a>
-            <span class="fineprint">אין צורך בריפו חדש או בקונטיינר חדש</span>
-          </div>
-        </div>
+    <h1 class="hero-title">דילים שווים <span>נכנסים ראשונים!</span></h1>
+    <p class="subtitle">מצטרפים לקבוצה ומקבלים דילים, הנחות וקופונים <strong>לפני כולם</strong></p>
 
-        <div class="deal-board" aria-hidden="true">
-          <div class="deal-card badge">
-            <span class="stamp">עד 48 שעות<br>לקמפיין</span>
-          </div>
-          <div class="deal-card main">
-            <div class="product-art"><span>%</span></div>
-            <div class="deal-title">
-              <span>דיל קמפיין</span>
-              <span class="price">₪89</span>
-            </div>
-          </div>
-          <div class="deal-card side">
-            <strong>Subdomain ready</strong>
-            <p>DNS + Railway domain + env var אחד.</p>
-          </div>
-        </div>
+    <section class="hero-art" aria-hidden="true">
+      <div class="shopping-bag"><div class="tag">%</div></div>
+      <div class="whatsapp-block">
+        <svg viewBox="0 0 256 256" aria-hidden="true">
+          <path fill="#fff" d="M128.2 27.8c-54.8 0-99.4 43.6-99.4 97.4 0 19.3 5.8 37.2 15.8 52.3L34 228.2l52.6-13.4a101.8 101.8 0 0 0 41.6 8.9c54.8 0 99.3-43.7 99.3-97.5s-44.5-98.4-99.3-98.4Zm0 177.9c-14.4 0-28.4-3.9-40.5-11.2l-3.1-1.9-31.2 8 6.2-30.2-2-3.1a79.2 79.2 0 0 1-12.7-42.1c0-43.8 37.4-79.4 83.3-79.4s83.3 35.7 83.3 80.4-37.4 79.5-83.3 79.5Z"/>
+          <path fill="#fff" d="M174.3 146.8c-2.5-1.2-14.7-7.1-17-7.9-2.3-.8-4-.8-5.7 1.2-1.7 2.5-6.5 7.9-8 9.5-1.5 1.7-3 1.9-5.5.6-14.8-7.2-24.5-12.9-34.3-29.2-2.6-4.4 2.6-4.1 7.4-13.6.8-1.7.4-3.1-.2-4.4-.6-1.3-5.7-13.5-7.8-18.5-2-4.8-4.1-4.1-5.7-4.2h-4.8c-1.7 0-4.4.6-6.7 3.1-2.3 2.5-8.8 8.5-8.8 20.7 0 12.3 9.1 24.1 10.3 25.8 1.3 1.7 17.8 26.6 43.1 37.3 16 6.8 22.3 7.4 30.3 6.2 4.9-.7 14.7-5.9 16.8-11.6 2.1-5.7 2.1-10.5 1.5-11.6-.6-1-2.3-1.6-4.9-2.8Z"/>
+        </svg>
+      </div>
+      <div class="gift-box"></div>
+      <div class="coupon">%</div>
+    </section>
+
+    <section class="features" aria-label="יתרונות הקבוצה">
+      <div class="feature">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-2 9H8L6 2H3"/><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/></svg>
+        <b>מגוון קטגוריות</b>
+        <span>טכנולוגיה, אופנה, בית, טיולים ועוד...</span>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7Z"/><path d="M9 12h.01M15 12h.01"/></svg>
+        <b>קופונים והנחות</b>
+        <span>לחיסכון אמיתי בכל קנייה</span>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 8v5l3 2M9 2h6M12 2v3"/></svg>
+        <b>עדכונים בזמן אמת</b>
+        <span>ברגע שעולה דיל שווה</span>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m20 12-8 8-9-9V4h7l10 8Z"/><circle cx="7.5" cy="8.5" r="1.2"/><path d="M14 8 8 14"/></svg>
+        <b>דילים בלעדיים</b>
+        <span>שלא תמצאו בשום מקום אחר</span>
       </div>
     </section>
 
-    <div class="strip" aria-hidden="true">
-      <div class="strip-track">
-        <span>promo.al-deals.com</span><span>summer.al-deals.com</span><span>deals.al-deals.com</span><span>campaign.al-deals.com</span>
-        <span>promo.al-deals.com</span><span>summer.al-deals.com</span><span>deals.al-deals.com</span><span>campaign.al-deals.com</span>
+    <section class="proof" aria-label="המלצות חברים">
+      <h2>אלפי חברים כבר נהנים</h2>
+      <div class="avatars" aria-hidden="true">
+        <span class="avatar"></span>
+        <span class="avatar"></span>
+        <span class="avatar"></span>
+        <span class="avatar"></span>
+        <span class="avatar"></span>
+        <span class="avatar"></span>
+        <span class="avatar"></span>
+        <span class="member-badge"><span><strong>10K+</strong>חברים</span></span>
       </div>
-    </div>
+      <p class="quote"><span class="quote-mark">”</span> קבוצה מעולה! מוצא פה דילים שלא ראיתי בשום מקום אחר <span class="quote-mark">“</span></p>
+      <div class="stars" aria-label="חמישה כוכבים">★★★★★</div>
+    </section>
 
-    <section id="how">
-      <div class="wrap">
-        <div class="section-head">
-          <h2>כך מוסיפים קמפיין חדש בלי לפצל את המערכת.</h2>
-          <p>העמוד הזה הוא דוגמה חיה למבנה המומלץ: אותו קוד, אותה פריסה, כתובת משנה נפרדת.</p>
-        </div>
-        <div class="grid">
-          <article class="tile">
+    <section class="how" aria-label="איך זה עובד">
+      <h2>איך זה עובד?</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="circle">
             <span class="num">1</span>
-            <b>יוצרים תיקיית נחיתה</b>
-            <p>כל קמפיין מקבל HTML ונכסים משלו תחת subdomains, בלי לשבור את עמוד החנות הקיים.</p>
-          </article>
-          <article class="tile">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5A8.5 8.5 0 0 1 7.4 19L4 20l1-3.3A8.5 8.5 0 1 1 20 11.5Z"/><path d="M9.4 8.4c.2 3 3 5.8 6.1 6.2l1.1-1.5-2.5-1.2-1 1c-1.2-.5-2.1-1.4-2.7-2.6l.9-1.1-1.1-2.4-.8 1.6Z"/></svg>
+          </div>
+          <b>מצטרפים</b>
+          <span>לוחצים על הכפתור ומצטרפים לקבוצה</span>
+        </div>
+        <div class="step">
+          <div class="circle">
             <span class="num">2</span>
-            <b>מחברים Host</b>
-            <p>השרת בודק את הדומיין המבוקש ומגיש את העמוד המתאים כאשר הבקשה מגיעה מהסאב-דומיין.</p>
-          </article>
-          <article class="tile">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21h4"/></svg>
+          </div>
+          <b>מקבלים עדכונים</b>
+          <span>דילים, הנחות וקופונים ישירות לוואטסאפ</span>
+        </div>
+        <div class="step">
+          <div class="circle">
             <span class="num">3</span>
-            <b>מוסיפים DNS ב-Railway</b>
-            <p>מגדירים את הדומיין ב-Railway, מעתיקים את רשומת ה-DNS לספק הדומיין, וממתינים לאישור SSL.</p>
-          </article>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1.2 13H7.2L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          </div>
+          <b>חוסכים יותר</b>
+          <span>קונים חכם וחוסכים כסף</span>
         </div>
       </div>
     </section>
 
-    <section id="drops">
-      <div class="wrap signup">
-        <div>
-          <h2>מוכן לקמפיין הבא.</h2>
-          <p>החלף את הטקסטים והמוצר בעמוד הזה, קבע את LANDING_SUBDOMAIN_HOST לכתובת הרצויה, והוסף את הדומיין ב-Railway. אין צורך לפתוח GitHub repo חדש בשביל זה.</p>
-        </div>
-        <form>
-          <input type="text" value="promo.al-deals.com" aria-label="דומיין משנה">
-          <input type="email" placeholder="email@example.com" aria-label="אימייל">
-          <button class="cta" type="button">שמרו אותי לעדכונים</button>
-        </form>
-      </div>
-    </section>
+    <a class="cta" href="https://chat.whatsapp.com/" aria-label="מצטרפים עכשיו לקבוצה">
+      <svg viewBox="0 0 256 256" aria-hidden="true">
+        <path fill="#fff" d="M128 24C72.8 24 28 68.1 28 122.5c0 18.4 5.2 35.6 14.2 50.3L33 232l60.6-14.7a102.3 102.3 0 0 0 34.4 5.9c55.2 0 100-44.1 100-99S183.2 24 128 24Zm0 179.3c-11.5 0-22.7-2.4-33.2-7.1l-4.2-1.9-35.8 8.7 5.7-35.1-2.3-3.6a78.7 78.7 0 0 1-12.3-41.8c0-43.4 36.8-78.6 82.1-78.6s82.1 35.2 82.1 80.3-36.8 79.1-82.1 79.1Z"/>
+        <path fill="#fff" d="M174.8 146.5c-2.5-1.3-14.9-7.3-17.2-8.1-2.3-.9-4-.9-5.7 1.2-1.7 2.6-6.6 8.1-8.1 9.7-1.5 1.7-3 1.9-5.6.6-15.2-7.5-25.1-13.3-35.1-30-2.7-4.6 2.7-4.2 7.7-14 .9-1.8.4-3.2-.2-4.5-.6-1.3-5.7-13.9-7.9-19-2.1-5-4.2-4.3-5.7-4.4h-4.9c-1.7 0-4.5.7-6.8 3.2-2.3 2.6-9 8.8-9 21.3s9.2 24.8 10.5 26.5c1.3 1.7 18.1 27.3 44 38.4 16.4 7.1 22.8 7.6 31.1 6.4 5-.8 14.9-6.1 17.1-11.9 2.1-5.8 2.1-10.8 1.5-11.9-.7-1.1-2.4-1.8-5.7-3.5Z"/>
+      </svg>
+      <span>מצטרפים עכשיו לקבוצה <small>100% בחינם | וללא ספאם</small></span>
+    </a>
+
+    <div class="privacy">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 9h-1V7a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2Zm-7-2a2 2 0 0 1 4 0v2h-4V7Z"/></svg>
+      קבוצה סגורה | ללא ספאם | רק דילים שווים
+    </div>
   </main>
-
-  <footer class="footer" id="join">
-    <div class="wrap">Al Deals - עמוד נחיתה לסאב-דומיין חדש</div>
-  </footer>
 </body>
 </html>
