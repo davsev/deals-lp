@@ -7,6 +7,8 @@ const root = __dirname;
 const port = Number(process.env.PORT || 4173);
 const isRailway = Object.keys(process.env).some(key => key.startsWith('RAILWAY_'));
 const host = process.env.HOST || (isRailway ? '0.0.0.0' : '127.0.0.1');
+const landingSubdomainHost = (process.env.LANDING_SUBDOMAIN_HOST || 'promo.al-deals.com').toLowerCase();
+const landingSubdomainDir = process.env.LANDING_SUBDOMAIN_DIR || 'subdomains/promo';
 const apiKey = process.env.CHING_API_KEY || process.env.CHING_API_KEY_TEST;
 const webhookSecret = process.env.CHING_WEBHOOK_SECRET;
 const resendApiKey = process.env.RESEND_API_KEY;
@@ -525,11 +527,21 @@ async function handleSheetsHealth(req, res) {
   }
 }
 
+function resolveStaticRoot(req) {
+  const requestHost = String(req.headers.host || '').split(':')[0].toLowerCase();
+  if (requestHost === landingSubdomainHost) {
+    return path.join(root, landingSubdomainDir);
+  }
+  return root;
+}
+
 function serveStatic(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const requested = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname);
-  const filePath = path.normalize(path.join(root, requested));
-  if (!filePath.startsWith(root)) {
+  const staticRoot = resolveStaticRoot(req);
+  const filePath = path.normalize(path.join(staticRoot, requested));
+  const relativePath = path.relative(staticRoot, filePath);
+  if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
     res.writeHead(403);
     res.end('Forbidden');
     return;

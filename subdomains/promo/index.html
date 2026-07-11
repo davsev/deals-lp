@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Al Deals - דילים חמים בלי לחפש שעות</title>
+  <meta name="description" content="עמוד נחיתה חדש ל-Al Deals עם דילים נבחרים, משלוח עד הבית והצעות שמתחלפות מהר.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800;900&family=Frank+Ruhl+Libre:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #15110d;
+      --paper: #fff8ec;
+      --card: #fffdf8;
+      --line: #eadbc0;
+      --muted: #6d6254;
+      --red: #d83b2d;
+      --green: #0f7b63;
+      --blue: #1769aa;
+      --gold: #f0ad2c;
+      --shadow: 0 22px 55px rgba(58, 39, 14, .16);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(21,17,13,.035) 1px, transparent 1px) 0 0 / 42px 42px,
+        linear-gradient(0deg, rgba(21,17,13,.035) 1px, transparent 1px) 0 0 / 42px 42px,
+        var(--paper);
+      font-family: Assistant, sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .wrap { width: min(1120px, calc(100% - 32px)); margin-inline: auto; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(234, 219, 192, .8);
+      background: rgba(255, 248, 236, .86);
+      backdrop-filter: blur(14px);
+    }
+    .nav {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 20px;
+      letter-spacing: .02em;
+    }
+    .mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--red);
+      border: 3px solid var(--ink);
+      box-shadow: 5px 5px 0 var(--ink);
+      transform: rotate(-4deg);
+    }
+    .navlinks {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .cta {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--ink);
+      background: var(--gold);
+      color: var(--ink);
+      padding: 0 22px;
+      font-weight: 900;
+      box-shadow: 6px 6px 0 var(--ink);
+      transition: transform .16s ease, box-shadow .16s ease;
+    }
+    .cta:hover { transform: translate(3px, 3px); box-shadow: 3px 3px 0 var(--ink); }
+    .cta.dark { background: var(--ink); color: #fff; box-shadow: 6px 6px 0 var(--red); }
+
+    .hero {
+      min-height: calc(100svh - 68px);
+      display: grid;
+      align-items: center;
+      padding: 54px 0 72px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      border: 2px solid var(--ink);
+      background: #fff;
+      padding: 8px 13px;
+      font-weight: 900;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+    h1 {
+      margin: 24px 0 0;
+      font-family: "Frank Ruhl Libre", serif;
+      font-size: clamp(52px, 8vw, 108px);
+      line-height: .9;
+      letter-spacing: 0;
+    }
+    .hero-copy {
+      max-width: 660px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: clamp(20px, 2.4vw, 27px);
+      line-height: 1.45;
+      font-weight: 700;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 34px;
+    }
+    .fineprint {
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .deal-board {
+      position: relative;
+      min-height: 560px;
+    }
+    .deal-card {
+      position: absolute;
+      border: 3px solid var(--ink);
+      background: var(--card);
+      box-shadow: var(--shadow), 10px 10px 0 var(--ink);
+      padding: 22px;
+      animation: lift .7s ease both;
+    }
+    .deal-card.main {
+      inset: 52px 36px auto auto;
+      width: min(410px, 100%);
+      transform: rotate(2deg);
+    }
+    .deal-card.side {
+      left: 0;
+      bottom: 54px;
+      width: 250px;
+      transform: rotate(-5deg);
+      background: #fdf1d6;
+      animation-delay: .1s;
+    }
+    .deal-card.badge {
+      left: 52px;
+      top: 8px;
+      width: 190px;
+      padding: 18px;
+      background: var(--green);
+      color: #fff;
+      transform: rotate(7deg);
+      animation-delay: .18s;
+    }
+    @keyframes lift {
+      from { opacity: 0; translate: 0 18px; }
+      to { opacity: 1; translate: 0 0; }
+    }
+    .product-art {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(240,173,44,.55), transparent 0 22%, transparent 23%),
+        radial-gradient(circle at 66% 68%, rgba(216,59,45,.45), transparent 0 21%, transparent 22%),
+        #e8f5ef;
+      border: 2px solid var(--ink);
+      overflow: hidden;
+    }
+    .product-art span {
+      display: grid;
+      place-items: center;
+      width: 70%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid var(--ink);
+      font-size: 78px;
+      font-weight: 900;
+      color: var(--red);
+    }
+    .deal-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: end;
+      margin-top: 18px;
+      font-weight: 900;
+      font-size: 22px;
+    }
+    .price { color: var(--red); font-size: 34px; line-height: .9; }
+    .stamp {
+      display: inline-grid;
+      place-items: center;
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      border: 4px solid currentColor;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.05;
+    }
+
+    .strip {
+      border-block: 3px solid var(--ink);
+      background: var(--red);
+      color: #fff;
+      overflow: hidden;
+    }
+    .strip-track {
+      display: flex;
+      gap: 38px;
+      width: max-content;
+      padding: 14px 0;
+      font-weight: 900;
+      animation: marquee 22s linear infinite;
+    }
+    @keyframes marquee { to { transform: translateX(50%); } }
+
+    section { padding: 86px 0; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+    h2 {
+      margin: 0;
+      max-width: 620px;
+      font-family: "Frank Ruhl Libre", serif;
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+    .section-head p {
+      margin: 0;
+      max-width: 390px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .tile {
+      min-height: 250px;
+      border: 3px solid var(--ink);
+      background: var(--card);
+      padding: 24px;
+      box-shadow: 7px 7px 0 var(--ink);
+    }
+    .tile:nth-child(2) { background: #e8f5ef; }
+    .tile:nth-child(3) { background: #fdf1d6; }
+    .tile b {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+    .tile p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.65;
+    }
+    .num {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 44px;
+      border: 2px solid var(--ink);
+      background: var(--gold);
+      font-weight: 900;
+    }
+    .signup {
+      border: 3px solid var(--ink);
+      background: var(--green);
+      color: #fff;
+      box-shadow: 10px 10px 0 var(--ink);
+      padding: clamp(28px, 6vw, 62px);
+      display: grid;
+      grid-template-columns: 1fr 410px;
+      gap: 34px;
+      align-items: center;
+    }
+    .signup h2 { color: #fff; }
+    .signup p {
+      color: rgba(255,255,255,.82);
+      font-size: 19px;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+    form {
+      display: grid;
+      gap: 12px;
+    }
+    input {
+      width: 100%;
+      min-height: 54px;
+      border: 3px solid var(--ink);
+      background: #fff;
+      color: var(--ink);
+      padding: 0 16px;
+      font: 800 16px Assistant, sans-serif;
+    }
+    input:focus { outline: 4px solid rgba(240,173,44,.45); }
+    .footer {
+      padding: 34px 0;
+      color: var(--muted);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    @media (max-width: 880px) {
+      .navlinks { display: none; }
+      .hero-grid, .signup { grid-template-columns: 1fr; }
+      .deal-board { min-height: 500px; }
+      .deal-card.main { right: 0; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 16px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 24px, 1120px); }
+      .hero { padding-top: 34px; }
+      h1 { font-size: 54px; }
+      .hero-copy { font-size: 19px; }
+      .cta { width: 100%; }
+      .deal-board { min-height: 430px; }
+      .deal-card { box-shadow: 6px 6px 0 var(--ink); }
+      .deal-card.main { width: 88%; top: 36px; }
+      .deal-card.side { width: 190px; bottom: 18px; }
+      .deal-card.badge { left: 10px; width: 150px; }
+      .product-art span { font-size: 54px; }
+      section { padding: 64px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Al Deals">
+        <span class="mark">AL</span>
+        <span>Al Deals</span>
+      </a>
+      <nav class="navlinks" aria-label="ניווט">
+        <a href="#how">איך זה עובד</a>
+        <a href="#drops">מה מקבלים</a>
+        <a href="#join">הצטרפות</a>
+      </nav>
+      <a class="cta" href="#join">קבלו דילים</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="kicker">דילים שנבחרים ידנית, לא עוד קטלוג אינסופי</span>
+          <h1>העמוד החדש של Al Deals מוכן לדומיין משנה.</h1>
+          <p class="hero-copy">עמוד נחיתה עצמאי שמיועד לקמפיינים, מוצרי עונה או רשימת המתנה. הוא רץ מאותו Railway service, אבל יכול לקבל כתובת משלו כמו promo.al-deals.com.</p>
+          <div class="hero-actions">
+            <a class="cta dark" href="#join">פתחו קמפיין</a>
+            <span class="fineprint">אין צורך בריפו חדש או בקונטיינר חדש</span>
+          </div>
+        </div>
+
+        <div class="deal-board" aria-hidden="true">
+          <div class="deal-card badge">
+            <span class="stamp">עד 48 שעות<br>לקמפיין</span>
+          </div>
+          <div class="deal-card main">
+            <div class="product-art"><span>%</span></div>
+            <div class="deal-title">
+              <span>דיל קמפיין</span>
+              <span class="price">₪89</span>
+            </div>
+          </div>
+          <div class="deal-card side">
+            <strong>Subdomain ready</strong>
+            <p>DNS + Railway domain + env var אחד.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="strip" aria-hidden="true">
+      <div class="strip-track">
+        <span>promo.al-deals.com</span><span>summer.al-deals.com</span><span>deals.al-deals.com</span><span>campaign.al-deals.com</span>
+        <span>promo.al-deals.com</span><span>summer.al-deals.com</span><span>deals.al-deals.com</span><span>campaign.al-deals.com</span>
+      </div>
+    </div>
+
+    <section id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>כך מוסיפים קמפיין חדש בלי לפצל את המערכת.</h2>
+          <p>העמוד הזה הוא דוגמה חיה למבנה המומלץ: אותו קוד, אותה פריסה, כתובת משנה נפרדת.</p>
+        </div>
+        <div class="grid">
+          <article class="tile">
+            <span class="num">1</span>
+            <b>יוצרים תיקיית נחיתה</b>
+            <p>כל קמפיין מקבל HTML ונכסים משלו תחת subdomains, בלי לשבור את עמוד החנות הקיים.</p>
+          </article>
+          <article class="tile">
+            <span class="num">2</span>
+            <b>מחברים Host</b>
+            <p>השרת בודק את הדומיין המבוקש ומגיש את העמוד המתאים כאשר הבקשה מגיעה מהסאב-דומיין.</p>
+          </article>
+          <article class="tile">
+            <span class="num">3</span>
+            <b>מוסיפים DNS ב-Railway</b>
+            <p>מגדירים את הדומיין ב-Railway, מעתיקים את רשומת ה-DNS לספק הדומיין, וממתינים לאישור SSL.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="drops">
+      <div class="wrap signup">
+        <div>
+          <h2>מוכן לקמפיין הבא.</h2>
+          <p>החלף את הטקסטים והמוצר בעמוד הזה, קבע את LANDING_SUBDOMAIN_HOST לכתובת הרצויה, והוסף את הדומיין ב-Railway. אין צורך לפתוח GitHub repo חדש בשביל זה.</p>
+        </div>
+        <form>
+          <input type="text" value="promo.al-deals.com" aria-label="דומיין משנה">
+          <input type="email" placeholder="email@example.com" aria-label="אימייל">
+          <button class="cta" type="button">שמרו אותי לעדכונים</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="join">
+    <div class="wrap">Al Deals - עמוד נחיתה לסאב-דומיין חדש</div>
+  </footer>
+</body>
+</html>
