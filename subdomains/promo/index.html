@@ -44,19 +44,16 @@
       -webkit-user-drag: none;
     }
 
-    .cta-hitbox {
+    .screen-hitbox {
       position: absolute;
-      left: 9.09%;
-      top: 90.23%;
-      width: 81.82%;
-      height: 6.56%;
-      border-radius: 18px;
+      inset: 0;
+      display: block;
       font-size: 0;
     }
 
-    .cta-hitbox:focus-visible {
+    .screen-hitbox:focus-visible {
       outline: 3px solid rgba(255, 255, 255, .9);
-      outline-offset: 4px;
+      outline-offset: -6px;
     }
 
     .sr-only {
@@ -72,7 +69,7 @@
 <body>
   <main class="flyer" aria-label="דילים שווים נכנסים ראשונים">
     <img src="whatsapp-deals-flyer.jpg" alt="דילים שווים נכנסים ראשונים. מצטרפים לקבוצת וואטסאפ סגורה ומקבלים דילים, הנחות וקופונים לפני כולם.">
-    <a class="cta-hitbox" href="https://chat.whatsapp.com/" aria-label="מצטרפים עכשיו לקבוצת הוואטסאפ">
+    <a class="screen-hitbox" href="https://chat.whatsapp.com/E8p0CU6boznAilbUd1pIdK" aria-label="מצטרפים עכשיו לקבוצת הוואטסאפ">
       <span class="sr-only">מצטרפים עכשיו לקבוצה</span>
     </a>
   </main>
